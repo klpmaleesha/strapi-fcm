@@ -8,6 +8,7 @@ import Upload from "@strapi/icons/Upload";
 import "../../styles/Home.css";
 
 const Configure = () => {
+  const [file, setFile] = useState(null);
   const filePickerRef = useRef();
   return (
     <Box className="configure_container" background="neutral0" padding={4}>
@@ -29,6 +30,7 @@ const Configure = () => {
             type="file"
             hidden
             accept="application/json"
+            onChange={(e) => setFile(e.target.files[0])}
             ref={filePickerRef}
           />
           <Typography className="upload_description" variant="pi">
