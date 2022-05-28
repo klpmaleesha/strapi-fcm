@@ -6,10 +6,51 @@ import { Button } from "@strapi/design-system/Button";
 import { Link } from "@strapi/design-system/Link";
 import Upload from "@strapi/icons/Upload";
 import "../../styles/Home.css";
+import instance from "../../utils/axiosInstance";
 
 const Configure = () => {
   const [file, setFile] = useState(null);
   const filePickerRef = useRef();
+
+  const uploadConfig = async () => {
+    if (file) {
+      const config = JSON.parse(await file.text());
+      const {
+        type,
+        project_id,
+        private_key_id,
+        private_key,
+        client_email,
+        client_id,
+        auth_uri,
+        token_uri,
+        auth_provider_x509_cert_url,
+        client_x509_cert_url,
+      } = config;
+      if (
+        type &&
+        project_id &&
+        private_key_id &&
+        private_key &&
+        client_email &&
+        client_id &&
+        auth_uri &&
+        token_uri &&
+        auth_provider_x509_cert_url &&
+        client_x509_cert_url
+      ) {
+        const { data } = await instance.post("/upload", {
+          config: await file.text(),
+        });
+        console.log(data);
+      } else {
+        console.log("Invalid config");
+      }
+    } else {
+      console.log("No file selected");
+    }
+  };
+
   return (
     <Box className="configure_container" background="neutral0" padding={4}>
       <Layout>
@@ -42,7 +83,13 @@ const Configure = () => {
           </Typography>
         </Box>
         <Box className="next_container">
-          <Button size="l">Next</Button>
+          <Button
+            disabled={file ? false : true}
+            onClick={uploadConfig}
+            size="l"
+          >
+            Next
+          </Button>
         </Box>
       </Layout>
     </Box>
