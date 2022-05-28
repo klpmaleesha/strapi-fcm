@@ -12,6 +12,8 @@ const Configure = () => {
   const [file, setFile] = useState(null);
   const filePickerRef = useRef();
 
+
+
   const uploadConfig = async () => {
     if (file) {
       const config = JSON.parse(await file.text());

@@ -17,4 +17,17 @@ module.exports = {
       message: "Config uploaded successfully",
     };
   },
+  config(ctx) {
+    const config = fs.existsSync("./config/config.json");
+
+    if (config) {
+      ctx.body = {
+        message: "found",
+      };
+    } else {
+      ctx.body = {
+        message: "not-found",
+      };
+    }
+  },
 };

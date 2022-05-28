@@ -15,4 +15,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "GET",
+    path: "/config",
+    handler: "controller.config",
+    config: {
+      policies: [],
+    },
+  },
 ];
