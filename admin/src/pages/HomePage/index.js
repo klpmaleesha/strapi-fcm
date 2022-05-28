@@ -1,19 +1,15 @@
-/*
- *
- * HomePage
- *
- */
-
-import React, { memo } from 'react';
-// import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
+import React, { memo, useState, useEffect } from "react";
+import pluginId from "../../pluginId";
+import { Box } from "@strapi/design-system/Box";
+import Configure from "../../components/Home/Configure";
+import "../../styles/Home.css";
 
 const HomePage = () => {
+  const [activeTab, setActiveTab] = useState(0);
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Box padding={8} background="neutral100">
+      {activeTab === 0 && <Configure />}
+    </Box>
   );
 };
 
