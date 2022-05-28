@@ -1,8 +1,16 @@
 module.exports = [
   {
-    method: 'GET',
-    path: '/',
-    handler: 'myController.index',
+    method: "GET",
+    path: "/",
+    handler: "controller.index",
+    config: {
+      policies: [],
+    },
+  },
+  {
+    method: "POST",
+    path: "/upload",
+    handler: "controller.upload",
     config: {
       policies: [],
     },
