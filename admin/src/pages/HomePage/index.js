@@ -25,7 +25,7 @@ const HomePage = () => {
   }
   return (
     <Box padding={8} background="neutral100">
-      {activeTab === 0 && <Configure />}
+      {activeTab === 0 && <Configure setActiveTab={setActiveTab} />}
       {activeTab === 1 && <Form />}
     </Box>
   );

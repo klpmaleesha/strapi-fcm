@@ -8,11 +8,11 @@ import Upload from "@strapi/icons/Upload";
 import "../../styles/Home.css";
 import instance from "../../utils/axiosInstance";
 
-const Configure = () => {
+const Configure = ({ setActiveTab }) => {
   const [file, setFile] = useState(null);
   const filePickerRef = useRef();
 
-  const uploadConfig = async ({ setActiveTab }) => {
+  const uploadConfig = async () => {
     if (file) {
       const config = JSON.parse(await file.text());
       const {
@@ -42,7 +42,7 @@ const Configure = () => {
         const { data } = await instance.post("/upload", {
           config: await file.text(),
         });
-        await setActiveTab(1);
+        setActiveTab(1);
       } else {
         console.log("Invalid config");
       }
