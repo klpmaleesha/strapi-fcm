@@ -68,7 +68,7 @@ const Configure = ({ setActiveTab }) => {
               onClick={() => filePickerRef.current.click()}
               startIcon={<Upload />}
             >
-              Upload Firebase Admin SDK
+              {!file ? "Upload Firebase Admin SDK" : "File selected"}
             </Button>
             <input
               type="file"
