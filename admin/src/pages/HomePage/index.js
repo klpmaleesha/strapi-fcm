@@ -5,6 +5,7 @@ import Configure from "../../components/Home/Configure";
 import Loading from "../../components/Common/Loading";
 import instance from "../../utils/axiosInstance";
 import "../../styles/Home.css";
+import Messages from "../../components/Messages";
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -23,8 +24,9 @@ const HomePage = () => {
     return <Loading />;
   }
   return (
-    <Box padding={8} background="neutral100">
+    <Box>
       {activeTab === 0 && <Configure setActiveTab={setActiveTab} />}
+      {activeTab === 1 && <Messages />}
     </Box>
   );
 };

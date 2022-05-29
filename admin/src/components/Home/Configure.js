@@ -5,8 +5,8 @@ import { Typography } from "@strapi/design-system/Typography";
 import { Button } from "@strapi/design-system/Button";
 import { Link } from "@strapi/design-system/Link";
 import Upload from "@strapi/icons/Upload";
-import "../../styles/Home.css";
 import instance from "../../utils/axiosInstance";
+import "../../styles/Home.css";
 
 const Configure = ({ setActiveTab }) => {
   const [file, setFile] = useState(null);
@@ -52,7 +52,7 @@ const Configure = ({ setActiveTab }) => {
   };
 
   return (
-    <Box className="configure_container" background="neutral0" padding={4}>
+    <Box padding={8} background="neutral100">
       <Layout>
         <Box className="header_container">
           <Typography variant="alpha">Welcome to FCM</Typography>
@@ -60,38 +60,42 @@ const Configure = ({ setActiveTab }) => {
             Send clound message to all users with a few taps
           </Typography>
         </Box>
-        <Box className="upload_container">
-          <Button
-            onClick={() => filePickerRef.current.click()}
-            startIcon={<Upload />}
-          >
-            Upload Firebase Admin SDK
-          </Button>
-          <input
-            type="file"
-            hidden
-            accept="application/json"
-            onChange={(e) => setFile(e.target.files[0])}
-            ref={filePickerRef}
-          />
-          <Typography className="upload_description" variant="pi">
-            Get the Firebase Admin SDK from the{" "}
-            <Link href="https://firebase.google.com/docs/admin/setup">
-              Firebase Console
-            </Link>
-            .
-          </Typography>
-        </Box>
-        <Box className="next_container">
-          <Button
-            disabled={file ? false : true}
-            onClick={uploadConfig}
-            size="l"
-          >
-            Next
-          </Button>
-        </Box>
       </Layout>
+      <Box className="configure_container" background="neutral0" padding={4}>
+        <Layout>
+          <Box className="upload_container">
+            <Button
+              onClick={() => filePickerRef.current.click()}
+              startIcon={<Upload />}
+            >
+              Upload Firebase Admin SDK
+            </Button>
+            <input
+              type="file"
+              hidden
+              accept="application/json"
+              onChange={(e) => setFile(e.target.files[0])}
+              ref={filePickerRef}
+            />
+            <Typography className="upload_description" variant="pi">
+              Get the Firebase Admin SDK from the{" "}
+              <Link href="https://firebase.google.com/docs/admin/setup">
+                Firebase Console
+              </Link>
+              .
+            </Typography>
+          </Box>
+          <Box className="next_container">
+            <Button
+              disabled={file ? false : true}
+              onClick={uploadConfig}
+              size="l"
+            >
+              Next
+            </Button>
+          </Box>
+        </Layout>
+      </Box>
     </Box>
   );
 };
