@@ -1,6 +1,6 @@
 "use strict";
 const fs = require("fs");
-const { messaging } = require("../config/firebase");
+const { messaging } = require("../utils/firebase");
 
 module.exports = {
   index(ctx) {
@@ -39,7 +39,7 @@ module.exports = {
       },
       topic: "all",
     };
-    const { data } = messaging.send(payload);
+    const data = await messaging.send(payload);
     ctx.body = {
       message: "Message sent successfully",
       data,
