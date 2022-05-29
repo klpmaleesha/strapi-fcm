@@ -9,20 +9,28 @@ import {
   TabPanels,
   TabPanel,
 } from "@strapi/design-system/Tabs";
-import "../../styles/Home.css";
+import "../../styles/Message.css";
+import Send from "./Send";
 
 const MessageForm = () => {
   return (
     <Box padding={8} background="neutral100">
-      <Box className="header_container">
-        <Typography variant="alpha">Send Notifications</Typography>
-        <Typography variant="omega">
-          Fill the feilds to send a message to all users
-        </Typography>
-      </Box>
-      <Box className="configure_container" background="neutral0" padding={4}>
+      <Layout>
+        <Box className="header_container">
+          <Typography variant="alpha">Send Notifications</Typography>
+          <Typography variant="omega">
+            Fill the feilds to send a message to all users
+          </Typography>
+        </Box>
+      </Layout>
+      <Box
+        shadow
+        className="configure_container"
+        background="neutral0"
+        padding={4}
+      >
         <Layout>
-          <Box padding={8} background="neutral0">
+          <Box padding={4} background="neutral0">
             <TabGroup
               label="Some stuff for the label"
               id="tabs"
@@ -35,7 +43,7 @@ const MessageForm = () => {
               <TabPanels>
                 <TabPanel>
                   <Box color="neutral800" padding={4} background="neutral0">
-                    Send
+                    <Send />
                   </Box>
                 </TabPanel>
                 <TabPanel>

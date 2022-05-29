@@ -6,7 +6,7 @@ import { Button } from "@strapi/design-system/Button";
 import { Link } from "@strapi/design-system/Link";
 import Upload from "@strapi/icons/Upload";
 import instance from "../../utils/axiosInstance";
-import "../../styles/Home.css";
+import "../../styles/Configure.css";
 
 const Configure = ({ setActiveTab }) => {
   const [file, setFile] = useState(null);
@@ -68,7 +68,7 @@ const Configure = ({ setActiveTab }) => {
               onClick={() => filePickerRef.current.click()}
               startIcon={<Upload />}
             >
-              Upload Firebase Admin SDK
+              {!file ? "Upload Firebase Admin SDK" : "File selected"}
             </Button>
             <input
               type="file"

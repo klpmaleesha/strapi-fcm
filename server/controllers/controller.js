@@ -1,5 +1,6 @@
 "use strict";
 const fs = require("fs");
+const { messaging } = require("../config/firebase");
 
 module.exports = {
   index(ctx) {
@@ -29,5 +30,19 @@ module.exports = {
         message: "not-found",
       };
     }
+  },
+  async send(ctx) {
+    const payload = {
+      notification: {
+        title: ctx.request.body.title,
+        body: ctx.request.body.body,
+      },
+      topic: "all",
+    };
+    const { data } = messaging.send(payload);
+    ctx.body = {
+      message: "Message sent successfully",
+      data,
+    };
   },
 };
