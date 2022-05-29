@@ -9,7 +9,7 @@ import {
   TabPanels,
   TabPanel,
 } from "@strapi/design-system/Tabs";
-import "../../styles/Home.css";
+import "../../styles/Message.css";
 
 const MessageForm = () => {
   return (

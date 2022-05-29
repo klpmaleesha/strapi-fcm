@@ -4,7 +4,6 @@ import { Box } from "@strapi/design-system/Box";
 import Configure from "../../components/Home/Configure";
 import Loading from "../../components/Common/Loading";
 import instance from "../../utils/axiosInstance";
-import "../../styles/Home.css";
 import Messages from "../../components/Messages";
 
 const HomePage = () => {
