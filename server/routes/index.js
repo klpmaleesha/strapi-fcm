@@ -23,4 +23,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/send",
+    handler: "controller.send",
+    config: {
+      policies: [],
+    },
+  },
 ];

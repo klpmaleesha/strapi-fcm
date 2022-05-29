@@ -6,11 +6,27 @@ import { Layout } from "@strapi/design-system/Layout";
 import { TextInput } from "@strapi/design-system/TextInput";
 import { Tooltip } from "@strapi/design-system/Tooltip";
 import Information from "@strapi/icons/Information";
+import { Button } from "@strapi/design-system/Button";
+import instance from "../../utils/axiosInstance";
 import "../../styles/Send.css";
 
 const SendNotification = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
+  const notify = () => {
+    instance
+      .post("/send", {
+        title,
+        body,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
   return (
     <Box padding={4}>
       <Box>
@@ -54,7 +70,7 @@ const SendNotification = () => {
               onChange={(e) => setBody(e.target.value)}
               value={body}
               labelAction={
-                <Tooltip description="Content of the tooltip" position="right">
+                <Tooltip description="Content of the tooltip">
                   <button
                     aria-label="Information about the email"
                     style={{
@@ -68,6 +84,16 @@ const SendNotification = () => {
                 </Tooltip>
               }
             />
+          </Box>
+          <Box>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={title.length === 0 || body.length === 0}
+              onClick={notify}
+            >
+              Send
+            </Button>
           </Box>
         </Layout>
       </Box>
