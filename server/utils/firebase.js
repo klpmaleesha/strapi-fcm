@@ -1,13 +1,19 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../../../../../config/config.json");
+const fs = require("fs");
+let serviceAccount;
+let messaging;
 
-if (admin.apps.length == 0) {
-  admin.initializeApp({
-    credential: admin.credential?.cert(serviceAccount),
-  });
+if (fs.existsSync("./config/config.json")) {
+  serviceAccount = require("../../../../../config/config.json");
+
+  if (admin.apps.length == 0) {
+    admin.initializeApp({
+      credential: admin.credential?.cert(serviceAccount),
+    });
+  }
+
+  messaging = admin?.messaging();
 }
-
-const messaging = admin?.messaging();
 
 module.exports = {
   messaging,

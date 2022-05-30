@@ -8,6 +8,7 @@ import Upload from "@strapi/icons/Upload";
 import { Flex } from "@strapi/design-system/Flex";
 import instance from "../../utils/axiosInstance";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import styled from "styled-components";
 
 const Configure = ({ setActiveTab }) => {
   const [file, setFile] = useState(null);
