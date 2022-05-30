@@ -32,6 +32,7 @@ module.exports = {
     }
   },
   async send(ctx) {
+    const config = fs.existsSync("./config/config.json");
     const payload = {
       notification: {
         title: ctx.request.body.title,
@@ -39,10 +40,12 @@ module.exports = {
       },
       topic: "all",
     };
-    const data = await messaging.send(payload);
-    ctx.body = {
-      message: "Message sent successfully",
-      data,
-    };
+    if (config) {
+      const data = await messaging.send(payload);
+      ctx.body = {
+        message: "Message sent successfully",
+        data,
+      };
+    }
   },
 };

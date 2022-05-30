@@ -5,8 +5,9 @@ import { Typography } from "@strapi/design-system/Typography";
 import { Button } from "@strapi/design-system/Button";
 import { Link } from "@strapi/design-system/Link";
 import Upload from "@strapi/icons/Upload";
+import { Flex } from "@strapi/design-system/Flex";
 import instance from "../../utils/axiosInstance";
-import "../../styles/Configure.css";
+import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 
 const Configure = ({ setActiveTab }) => {
   const [file, setFile] = useState(null);
@@ -52,51 +53,68 @@ const Configure = ({ setActiveTab }) => {
   };
 
   return (
-    <Box padding={8} background="neutral100">
-      <Layout>
-        <Box className="header_container">
-          <Typography variant="alpha">Welcome to FCM</Typography>
-          <Typography variant="omega">
-            Send clound message to all users with a few taps
-          </Typography>
+    <Layout background="neutral100">
+      <BaseHeaderLayout
+        title="Strapi FCM"
+        subtitle="send firebase cloud messaging notifications"
+        as="h2"
+      />
+      <ContentLayout>
+        <Box shadow="filterShadow" hasRadius background="neutral0" padding={2}>
+          <Layout>
+            <Box>
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                direction="column"
+              >
+                <Box>
+                  <Flex alignItems="center" justifyContent="center">
+                    <Button
+                      onClick={() => filePickerRef.current.click()}
+                      startIcon={<Upload />}
+                    >
+                      {!file ? "Upload Firebase Admin SDK" : "File selected"}
+                    </Button>
+                  </Flex>
+                  <input
+                    type="file"
+                    hidden
+                    accept="application/json"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    ref={filePickerRef}
+                  />
+                  <Box width={15}>
+                    <Flex
+                      alignItems="center"
+                      justifyContent="center"
+                      direction="column"
+                    >
+                      <Typography variant="pi">
+                        Get the Firebase Admin SDK from the
+                      </Typography>
+                      <Link href="https://firebase.google.com/docs/admin/setup">
+                        Firebase Console
+                      </Link>
+                    </Flex>
+                  </Box>
+                </Box>
+              </Flex>
+            </Box>
+
+            <Flex justifyContent="end">
+              <Button
+                disabled={file ? false : true}
+                onClick={uploadConfig}
+                size="l"
+              >
+                Next
+              </Button>
+            </Flex>
+          </Layout>
         </Box>
-      </Layout>
-      <Box className="configure_container" background="neutral0" padding={4}>
-        <Layout>
-          <Box className="upload_container">
-            <Button
-              onClick={() => filePickerRef.current.click()}
-              startIcon={<Upload />}
-            >
-              {!file ? "Upload Firebase Admin SDK" : "File selected"}
-            </Button>
-            <input
-              type="file"
-              hidden
-              accept="application/json"
-              onChange={(e) => setFile(e.target.files[0])}
-              ref={filePickerRef}
-            />
-            <Typography className="upload_description" variant="pi">
-              Get the Firebase Admin SDK from the{" "}
-              <Link href="https://firebase.google.com/docs/admin/setup">
-                Firebase Console
-              </Link>
-              .
-            </Typography>
-          </Box>
-          <Box className="next_container">
-            <Button
-              disabled={file ? false : true}
-              onClick={uploadConfig}
-              size="l"
-            >
-              Next
-            </Button>
-          </Box>
-        </Layout>
-      </Box>
-    </Box>
+      </ContentLayout>
+    </Layout>
   );
 };
 

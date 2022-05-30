@@ -3,11 +3,11 @@ const serviceAccount = require("../../../../../config/config.json");
 
 if (admin.apps.length == 0) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential?.cert(serviceAccount),
   });
 }
 
-const messaging = admin.messaging();
+const messaging = admin?.messaging();
 
 module.exports = {
   messaging,
