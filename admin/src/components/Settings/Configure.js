@@ -11,6 +11,7 @@ import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import { TextInput } from "@strapi/design-system/TextInput";
 import { Tooltip } from "@strapi/design-system/Tooltip";
 import Information from "@strapi/icons/Information";
+import api from "../../api";
 
 const Configure = () => {
   const [file, setFile] = useState(null);
@@ -18,15 +19,24 @@ const Configure = () => {
   const [preset, setPreset] = useState("");
   const [error, setError] = useState(false);
   const [found, setFound] = useState(false);
+  const [created, setCreated] = useState(false);
   const filePickerRef = useRef();
 
   useEffect(() => {
+    api.getConfig().then((res) => {
+      setCloud(res.cloud);
+      setPreset(res.preset);
+      setFile(res.sdk);
+      setCreated(res.created);
+    });
     instance.get("/sdk").then((res) => {
       if (res.data.message === "found") {
         setFound(true);
       }
     });
   }, []);
+
+  console.log(file);
 
   const saveConfig = async () => {
     if (file && cloud && preset) {
@@ -74,9 +84,16 @@ const Configure = () => {
         const { data } = await instance.post("/upload", {
           config: await file.text(),
         });
-        setCloud("");
-        setPreset("");
-        setFile(null);
+        try {
+          const credentials = await api.setConfig({
+            preset,
+            cloud,
+            created: true,
+            sdk: config,
+          });
+        } catch (err) {
+          console.log(err);
+        }
         window.location.href = "/admin/plugins/strapi-fcm";
       } else {
         console.log("Invalid config");
@@ -105,7 +122,7 @@ const Configure = () => {
                   onClick={() => filePickerRef.current.click()}
                   startIcon={<Upload />}
                 >
-                  {!found ? (
+                  {!created ? (
                     <>
                       {!file
                         ? "Upload Firebase Admin SDK"
@@ -113,8 +130,8 @@ const Configure = () => {
                     </>
                   ) : (
                     <>
-                      {!file
-                        ? "Chnage Firebase Admin SDK"
+                      {file
+                        ? "Chanage Firebase Admin SDK"
                         : "Firebase Admin SDK Selected"}
                     </>
                   )}

@@ -38,6 +38,7 @@ module.exports = ({ strapi }) => ({
         preset: config.preset,
         cloud: config.cloud,
         created: config.created,
+        sdk: config.sdk,
       },
     });
     return pluginStore.get({ key: "config" });
