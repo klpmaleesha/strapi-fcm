@@ -32,7 +32,9 @@ module.exports = {
         title: ctx.request.body.title,
         body: ctx.request.body.body,
       },
-      topic: "all",
+      headers: {
+        image: ctx.request.body.image,
+      },
     };
 
     if (config) {

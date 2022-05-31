@@ -45,7 +45,7 @@ const SendNotification = () => {
         .post("/send", {
           title,
           body,
-          photo: url,
+          image: url,
         })
         .then((res) => {
           console.log(res.data);
