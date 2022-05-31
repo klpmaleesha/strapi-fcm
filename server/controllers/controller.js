@@ -40,7 +40,7 @@ module.exports = {
       },
       topic: "all",
     };
-    
+
     if (config) {
       const data = await messaging.sendToDevice(payload);
       ctx.body = {
@@ -48,5 +48,10 @@ module.exports = {
         data,
       };
     }
+  },
+  async notifications(ctx) {
+    ctx.body = {
+      message: "Notifications",
+    };
   },
 };

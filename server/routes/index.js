@@ -31,4 +31,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "GET",
+    path: "/notifications",
+    handler: "controller.notifications",
+    config: {
+      policies: [],
+    },
+  },
 ];

@@ -14,6 +14,8 @@ const HomePage = () => {
     instance.get("/config").then((res) => {
       if (res.data.message === "found") {
         setActiveTab(1);
+      } else {
+        setActiveTab(0);
       }
     });
     setLoading(false);

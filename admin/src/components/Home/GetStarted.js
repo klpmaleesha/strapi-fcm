@@ -4,12 +4,9 @@ import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import { Layout } from "@strapi/design-system/Layout";
 import { Typography } from "@strapi/design-system/Typography";
 import { Flex } from "@strapi/design-system/Flex";
-import { Button } from "@strapi/design-system/Button";
+import { LinkButton } from "@strapi/design-system/LinkButton";
 
 const GetStarted = () => {
-  const getStarted = () => {
-    window.location.href = "/admin/settings/strapi-fcm";
-  };
   return (
     <Layout background="neutral100">
       <BaseHeaderLayout
@@ -62,9 +59,9 @@ const GetStarted = () => {
             </Box>
             <Box paddingTop={4}>
               <Flex justifyContent="end">
-                <Button onClick={getStarted} size="l">
+                <LinkButton to="/settings/strapi-fcm" size="l">
                   Get Started
-                </Button>
+                </LinkButton>
               </Flex>
             </Box>
           </Box>

@@ -17,7 +17,16 @@ const Configure = () => {
   const [cloud, setCloud] = useState("");
   const [preset, setPreset] = useState("");
   const [error, setError] = useState(false);
+  const [found, setFound] = useState(false);
   const filePickerRef = useRef();
+
+  useEffect(() => {
+    instance.get("/config").then((res) => {
+      if (res.data.message === "found") {
+        setFound(true);
+      }
+    });
+  }, []);
 
   const saveConfig = async () => {
     if (file && cloud && preset) {
@@ -96,9 +105,19 @@ const Configure = () => {
                   onClick={() => filePickerRef.current.click()}
                   startIcon={<Upload />}
                 >
-                  {!file
-                    ? "Upload Firebase Admin SDK"
-                    : "Firebase Admin SDK Selected"}
+                  {!found ? (
+                    <>
+                      {!file
+                        ? "Upload Firebase Admin SDK"
+                        : "Firebase Admin SDK Selected"}
+                    </>
+                  ) : (
+                    <>
+                      {!file
+                        ? "Chnage Firebase Admin SDK"
+                        : "Firebase Admin SDK Selected"}
+                    </>
+                  )}
                 </Button>
                 <input
                   type="file"
