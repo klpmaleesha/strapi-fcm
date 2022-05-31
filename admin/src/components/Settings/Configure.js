@@ -36,7 +36,6 @@ const Configure = () => {
     });
   }, []);
 
-  console.log(file);
 
   const saveConfig = async () => {
     if (file && cloud && preset) {
@@ -103,7 +102,7 @@ const Configure = () => {
     }
   };
 
-  console.log(error);
+
 
   return (
     <Layout background="neutral100">
