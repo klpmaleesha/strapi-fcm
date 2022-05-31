@@ -3,12 +3,6 @@ const fs = require("fs");
 const { messaging } = require("../utils/firebase");
 
 module.exports = {
-  index(ctx) {
-    ctx.body = strapi
-      .plugin("strapi-fcm")
-      .service("myService")
-      .getWelcomeMessage();
-  },
   async upload(ctx) {
     await fs.promises.writeFile(
       "./config/config.json",
@@ -18,7 +12,7 @@ module.exports = {
       message: "Config uploaded successfully",
     };
   },
-  config(ctx) {
+  sdk(ctx) {
     const config = fs.existsSync("./config/config.json");
 
     if (config) {
@@ -53,5 +47,29 @@ module.exports = {
     ctx.body = {
       message: "Notifications",
     };
+  },
+  async getConfig(ctx) {
+    try {
+      ctx.body = await strapi
+        .plugin("strapi-fcm")
+        .service("service")
+        .getConfig();
+    } catch (error) {
+      ctx.body = {
+        message: "Config not found",
+      };
+    }
+  },
+  async setConfig(ctx) {
+    try {
+      ctx.body = await strapi
+        .plugin("strapi-fcm")
+        .service("service")
+        .setConfig(ctx.request.body);
+    } catch (error) {
+      ctx.body = {
+        message: "Config not found",
+      };
+    }
   },
 };

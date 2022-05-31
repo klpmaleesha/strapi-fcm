@@ -11,7 +11,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    instance.get("/config").then((res) => {
+    instance.get("/sdk").then((res) => {
       if (res.data.message === "found") {
         setActiveTab(1);
       } else {

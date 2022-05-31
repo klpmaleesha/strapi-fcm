@@ -21,7 +21,7 @@ const Configure = () => {
   const filePickerRef = useRef();
 
   useEffect(() => {
-    instance.get("/config").then((res) => {
+    instance.get("/sdk").then((res) => {
       if (res.data.message === "found") {
         setFound(true);
       }

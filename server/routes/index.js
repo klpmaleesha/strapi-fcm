@@ -1,13 +1,5 @@
 module.exports = [
   {
-    method: "GET",
-    path: "/",
-    handler: "controller.index",
-    config: {
-      policies: [],
-    },
-  },
-  {
     method: "POST",
     path: "/upload",
     handler: "controller.upload",
@@ -17,8 +9,8 @@ module.exports = [
   },
   {
     method: "GET",
-    path: "/config",
-    handler: "controller.config",
+    path: "/sdk",
+    handler: "controller.sdk",
     config: {
       policies: [],
     },
@@ -35,6 +27,22 @@ module.exports = [
     method: "GET",
     path: "/notifications",
     handler: "controller.notifications",
+    config: {
+      policies: [],
+    },
+  },
+  {
+    method: "GET",
+    path: "/config",
+    handler: "controller.getConfig",
+    config: {
+      policies: [],
+    },
+  },
+  {
+    method: "POST",
+    path: "/config",
+    handler: "controller.setConfig",
     config: {
       policies: [],
     },

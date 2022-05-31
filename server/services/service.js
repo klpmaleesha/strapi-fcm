@@ -30,7 +30,7 @@ module.exports = ({ strapi }) => ({
     }
     return config;
   },
-  async setCongif(config) {
+  async setConfig(config) {
     const pluginStore = getPluginStore();
     await pluginStore.set({
       key: "config",
