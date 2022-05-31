@@ -1,13 +1,13 @@
 import React, { memo, useState, useEffect } from "react";
 import pluginId from "../../pluginId";
 import { Box } from "@strapi/design-system/Box";
-import Configure from "../../components/Home/Configure";
 import Loading from "../../components/Common/Loading";
 import instance from "../../utils/axiosInstance";
 import Messages from "../../components/Messages";
+import GetStarted from "../../components/Home/GetStarted";
 
 const HomePage = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const HomePage = () => {
   }
   return (
     <Box>
-      {activeTab === 0 && <Configure setActiveTab={setActiveTab} />}
+      {activeTab == 0 && <GetStarted />}
       {activeTab === 1 && <Messages />}
     </Box>
   );

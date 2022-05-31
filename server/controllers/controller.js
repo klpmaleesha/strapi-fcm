@@ -40,8 +40,9 @@ module.exports = {
       },
       topic: "all",
     };
+    
     if (config) {
-      const data = await messaging.send(payload);
+      const data = await messaging.sendToDevice(payload);
       ctx.body = {
         message: "Message sent successfully",
         data,

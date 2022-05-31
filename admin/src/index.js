@@ -30,6 +30,28 @@ export default {
         // },
       ],
     });
+    app.createSettingSection(
+      {
+        id: pluginId,
+        intlLabel: {
+          id: `${pluginId}.plugin.name`,
+          defaultMessage: `${pluginId} Settings`,
+        },
+      },
+      [
+        {
+          intlLabel: {
+            id: `${pluginId}.plugin.name`,
+            defaultMessage: "Configure",
+          },
+          id: "configure",
+          to: `/settings/${pluginId}`,
+          Component: async () => {
+            return import("./components/Settings/Configure");
+          },
+        },
+      ]
+    );
     app.registerPlugin({
       id: pluginId,
       initializer: Initializer,

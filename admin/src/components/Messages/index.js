@@ -1,8 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
-import { Typography } from "@strapi/design-system/Typography";
 import { Layout } from "@strapi/design-system/Layout";
-import { Flex } from "@strapi/design-system/Flex";
 import {
   Tabs,
   Tab,
@@ -22,35 +20,28 @@ const MessageForm = () => {
         subtitle="send firebase cloud messaging notifications"
         as="h2"
       />
-      <ContentLayout
-        shadow="filterShadow"
-        hasRadius
-        background="neutral0"
-        padding={2}
-      >
+      <ContentLayout>
         <Box shadow="filterShadow" hasRadius background="neutral0" padding={2}>
-          <Layout>
-            <Box>
-              <TabGroup
-                label="Some stuff for the label"
-                id="tabs"
-                variant="simple"
-              >
-                <Tabs>
-                  <Tab>Send</Tab>
-                  <Tab>Sent</Tab>
-                </Tabs>
-                <TabPanels paddingTop={4}>
-                  <TabPanel>
-                    <Send />
-                  </TabPanel>
-                  <TabPanel>
-                    <Sent />
-                  </TabPanel>
-                </TabPanels>
-              </TabGroup>
-            </Box>
-          </Layout>
+          <Box>
+            <TabGroup
+              label="Some stuff for the label"
+              id="tabs"
+              variant="simple"
+            >
+              <Tabs>
+                <Tab>Send</Tab>
+                <Tab>Sent</Tab>
+              </Tabs>
+              <TabPanels paddingTop={4}>
+                <TabPanel>
+                  <Send />
+                </TabPanel>
+                <TabPanel>
+                  <Sent />
+                </TabPanel>
+              </TabPanels>
+            </TabGroup>
+          </Box>
         </Box>
       </ContentLayout>
     </Layout>
