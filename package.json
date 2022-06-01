@@ -1,10 +1,10 @@
 {
   "name": "strapi-fcm",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Send push notifications to your users",
   "strapi": {
     "name": "strapi-fcm",
-    "description": "Description of Strapi Fcm plugin",
+    "description": "Send push notifications to your users via FCM.",
     "kind": "plugin",
     "displayName": "Strapi Fcm"
   },
@@ -13,11 +13,11 @@
     "styled-components": "^5.3.5"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Maleesha Prabash"
   },
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "Maleesha Prabash"
     }
   ],
   "engines": {
