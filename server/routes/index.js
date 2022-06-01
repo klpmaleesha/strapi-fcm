@@ -1,13 +1,5 @@
 module.exports = [
   {
-    method: "POST",
-    path: "/upload",
-    handler: "controller.upload",
-    config: {
-      policies: [],
-    },
-  },
-  {
     method: "GET",
     path: "/sdk",
     handler: "controller.sdk",

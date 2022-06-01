@@ -3,61 +3,15 @@ const fs = require("fs");
 const { messaging } = require("../utils/firebase");
 
 module.exports = {
-  async upload(ctx) {
-    await fs.promises.writeFile(
-      "./config/config.json",
-      ctx.request.body.config
-    );
-    ctx.body = {
-      message: "Config uploaded successfully",
-    };
-  },
   async sdk(ctx) {
-    const config = await strapi
-      .plugin("strapi-fcm")
-      .service("service")
-      .getConfig();
-
-    if (config) {
+    try {
+      ctx.body = await strapi.plugin("strapi-fcm").service("service").findSDK();
+    } catch (err) {
       ctx.body = {
-        message: "found",
-      };
-    } else {
-      ctx.body = {
-        message: "not-found",
+        message: "error",
+        error: error.message,
       };
     }
-  },
-  async send(ctx) {
-    const config = await strapi
-      .plugin("strapi-fcm")
-      .service("service")
-      .getConfig();
-    const payload = {
-      notification: {
-        title: ctx.request.body.title,
-        body: ctx.request.body.body,
-      },
-      webpush: {
-        headers: {
-          image: ctx.request.body.image,
-        },
-      },
-      topic: "all",
-    };
-
-    if (config) {
-      const data = await messaging.send(payload);
-      ctx.body = {
-        message: "Message sent successfully",
-        data,
-      };
-    }
-  },
-  async notifications(ctx) {
-    ctx.body = {
-      message: "Notifications",
-    };
   },
   async getConfig(ctx) {
     try {
@@ -82,5 +36,24 @@ module.exports = {
         message: "Config not found",
       };
     }
+  },
+  async send(ctx) {
+    try {
+      ctx.body = await strapi
+        .plugin("strapi-fcm")
+        .service("service")
+        .sendNotification(ctx.request.body);
+    } catch (error) {
+      ctx.body = {
+        message: "error",
+        error: error.message,
+      };
+    }
+  },
+
+  async notifications(ctx) {
+    ctx.body = {
+      message: "Notifications",
+    };
   },
 };

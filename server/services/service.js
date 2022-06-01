@@ -1,5 +1,7 @@
 "use strict";
 
+const admin = require("firebase-admin");
+
 function getPluginStore() {
   return strapi.store({
     environment: "",
@@ -42,5 +44,42 @@ module.exports = ({ strapi }) => ({
       },
     });
     return pluginStore.get({ key: "config" });
+  },
+  async sendNotification(data) {
+    if (admin.apps.length == 0) {
+      admin.initializeApp({
+        credential: admin.credential.cert(await this.getConfig().sdk),
+      });
+    }
+
+    const messaging = admin.messaging();
+
+    const config = await this.getConfig();
+    const payload = {
+      notification: {
+        title: data.title,
+        body: data.body,
+      },
+      webpush: {
+        headers: {
+          image: data.image,
+        },
+      },
+      topic: "all",
+    };
+
+    if (config) {
+      const data = await messaging.send(payload);
+      return data;
+    }
+  },
+  async findSDK() {
+    const config = await this.getConfig();
+    if (config) {
+      return {
+        message: "found",
+        config,
+      };
+    }
   },
 });

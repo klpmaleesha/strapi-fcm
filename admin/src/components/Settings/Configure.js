@@ -79,9 +79,6 @@ const Configure = () => {
             }
           });
 
-        const { data } = await instance.post("/upload", {
-          config: await file.text(),
-        });
         try {
           const credentials = await api.setConfig({
             preset,
