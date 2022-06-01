@@ -36,7 +36,6 @@ const Configure = () => {
     });
   }, []);
 
-
   const saveConfig = async () => {
     if (file && cloud && preset) {
       const config = JSON.parse(await file.text());
@@ -101,8 +100,6 @@ const Configure = () => {
       console.log("No file selected");
     }
   };
-
-
 
   return (
     <Layout background="neutral100">

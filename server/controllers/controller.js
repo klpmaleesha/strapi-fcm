@@ -12,8 +12,11 @@ module.exports = {
       message: "Config uploaded successfully",
     };
   },
-  sdk(ctx) {
-    const config = fs.existsSync("./config/config.json");
+  async sdk(ctx) {
+    const config = await strapi
+      .plugin("strapi-fcm")
+      .service("service")
+      .getConfig();
 
     if (config) {
       ctx.body = {
@@ -26,19 +29,25 @@ module.exports = {
     }
   },
   async send(ctx) {
-    const config = fs.existsSync("./config/config.json");
+    const config = await strapi
+      .plugin("strapi-fcm")
+      .service("service")
+      .getConfig();
     const payload = {
       notification: {
         title: ctx.request.body.title,
         body: ctx.request.body.body,
       },
-      headers: {
-        image: ctx.request.body.image,
+      webpush: {
+        headers: {
+          image: ctx.request.body.image,
+        },
       },
+      topic: "all",
     };
 
     if (config) {
-      const data = await messaging.sendToDevice(payload);
+      const data = await messaging.send(payload);
       ctx.body = {
         message: "Message sent successfully",
         data,

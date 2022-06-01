@@ -5,6 +5,7 @@ import { Layout } from "@strapi/design-system/Layout";
 import { Typography } from "@strapi/design-system/Typography";
 import { Flex } from "@strapi/design-system/Flex";
 import { LinkButton } from "@strapi/design-system/LinkButton";
+import ChevronRight from "@strapi/icons/ChevronRight";
 
 const GetStarted = () => {
   return (
@@ -59,7 +60,12 @@ const GetStarted = () => {
             </Box>
             <Box paddingTop={4}>
               <Flex justifyContent="end">
-                <LinkButton to="/settings/strapi-fcm" size="l">
+                <LinkButton
+                  variant="secondary"
+                  to="/settings/strapi-fcm"
+                  size="l"
+                  endIcon={<ChevronRight />}
+                >
                   Get Started
                 </LinkButton>
               </Flex>
