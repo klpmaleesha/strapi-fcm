@@ -23,7 +23,7 @@ async function createDefultConfig() {
   return pluginStore.get({ key: "config" });
 }
 
-module.exports = ({ strapi }) => ({
+module.exports = () => ({
   async getConfig() {
     const pluginStore = getPluginStore();
     const config = await pluginStore.get({ key: "config" });
@@ -45,33 +45,49 @@ module.exports = ({ strapi }) => ({
     });
     return pluginStore.get({ key: "config" });
   },
-  async sendNotification(data) {
+  async sendNotification(notification) {
+    console.log(notification);
+    const config = await this.getConfig();
+
     if (admin.apps.length == 0) {
       admin.initializeApp({
-        credential: admin.credential.cert(await this.getConfig().sdk),
+        credential: admin.credential.cert(config.sdk),
       });
     }
-
     const messaging = admin.messaging();
-
-    const config = await this.getConfig();
     const payload = {
       notification: {
-        title: data.title,
-        body: data.body,
-      },
-      webpush: {
-        headers: {
-          image: data.image,
-        },
+        title: notification.title,
+        body: notification.body,
       },
       topic: "all",
     };
+    const notifications = await strapi.entityService.create("notification", {
+      data: {
+        title: notification.title,
+        body: notification.body,
+        image: notification.image,
+        created_at: new Date(Date.now()),
+      },
+    });
 
     if (config) {
       const data = await messaging.send(payload);
-      return data;
+      return {
+        data,
+        notification,
+      };
     }
+  },
+  async getNotifications() {
+    const notifications = await strapi.entityService.findMany(
+      "api::notification.notification",
+      {
+        fields: ["title", "body", "image"],
+        sort: { createdAt: "DESC" },
+      }
+    );
+    return notifications;
   },
   async findSDK() {
     const config = await this.getConfig();

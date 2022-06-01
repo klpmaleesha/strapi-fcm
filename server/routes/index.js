@@ -2,7 +2,7 @@ module.exports = [
   {
     method: "GET",
     path: "/sdk",
-    handler: "controller.sdk",
+    handler: "controller.getSDK",
     config: {
       policies: [],
     },
@@ -10,15 +10,15 @@ module.exports = [
   {
     method: "POST",
     path: "/send",
-    handler: "controller.send",
+    handler: "controller.sendNotifications",
     config: {
       policies: [],
     },
   },
   {
     method: "GET",
-    path: "/notifications",
-    handler: "controller.notifications",
+    path: "/sent",
+    handler: "controller.sentNotifications",
     config: {
       policies: [],
     },

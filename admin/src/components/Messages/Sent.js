@@ -2,8 +2,14 @@ import React, { memo, useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
 import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table";
 import instance from "../../utils/axiosInstance";
+import api from "../../api";
 
 const SentNotification = () => {
+  useEffect(() => {
+    api.sentNotifications().then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <Box fullWidth>
       <Box padding={1}>

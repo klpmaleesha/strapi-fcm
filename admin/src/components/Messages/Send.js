@@ -5,7 +5,6 @@ import { TextInput } from "@strapi/design-system/TextInput";
 import { Tooltip } from "@strapi/design-system/Tooltip";
 import Information from "@strapi/icons/Information";
 import { Button } from "@strapi/design-system/Button";
-import instance from "../../utils/axiosInstance";
 import { Flex } from "@strapi/design-system/Flex";
 import {
   Card,
@@ -17,14 +16,12 @@ import {
 } from "@strapi/design-system/Card";
 import Pencil from "@strapi/icons/Pencil";
 import api from "../../api";
-import { Alert } from "@strapi/design-system/Alert";
 
 const SendNotification = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState("");
   const [cloud, setCloud] = useState({});
-  const [url, setUrl] = useState("");
 
   const photoPickerRef = useRef();
   useEffect(() => {
@@ -45,26 +42,25 @@ const SendNotification = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            setUrl(data.url);
+            api
+              .sendNotification({ title, body, image: data.url })
+              .then((res) => {
+                setTitle("");
+                setBody("");
+                setPhoto(null);
+              })
+              .catch((err) => console.log(err));
+          });
+      } else {
+        api
+          .sendNotification({ title, body })
+          .then((res) => {
+            setTitle("");
+            setBody("");
+            setPhoto(null);
           })
           .catch((err) => console.log(err));
       }
-      instance
-        .post("/send", {
-          title,
-          body,
-          image: url,
-        })
-        .then((res) => {
-          console.log(res.data);
-          setTitle("");
-          setBody("");
-          setPhoto(null);
-          setUrl("");
-        })
-        .catch((err) => {
-          console.log(err.data);
-        });
     }
   };
 

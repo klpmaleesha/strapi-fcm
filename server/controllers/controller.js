@@ -1,9 +1,7 @@
 "use strict";
-const fs = require("fs");
-const { messaging } = require("../utils/firebase");
 
 module.exports = {
-  async sdk(ctx) {
+  async getSDK(ctx) {
     try {
       ctx.body = await strapi.plugin("strapi-fcm").service("service").findSDK();
     } catch (err) {
@@ -37,7 +35,7 @@ module.exports = {
       };
     }
   },
-  async send(ctx) {
+  async sendNotifications(ctx) {
     try {
       ctx.body = await strapi
         .plugin("strapi-fcm")
@@ -51,9 +49,17 @@ module.exports = {
     }
   },
 
-  async notifications(ctx) {
-    ctx.body = {
-      message: "Notifications",
-    };
+  async sentNotifications(ctx) {
+    try {
+      ctx.body = await strapi
+        .plugin("strapi-fcm")
+        .service("service")
+        .getNotifications();
+    } catch (error) {
+      ctx.body = {
+        message: "error",
+        error: error.message,
+      };
+    }
   },
 };

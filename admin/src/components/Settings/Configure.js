@@ -6,7 +6,6 @@ import { Button } from "@strapi/design-system/Button";
 import { Link } from "@strapi/design-system/Link";
 import Upload from "@strapi/icons/Upload";
 import { Flex } from "@strapi/design-system/Flex";
-import instance from "../../utils/axiosInstance";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import { TextInput } from "@strapi/design-system/TextInput";
 import { Tooltip } from "@strapi/design-system/Tooltip";
@@ -29,8 +28,8 @@ const Configure = () => {
       setFile(res.sdk);
       setCreated(res.created);
     });
-    instance.get("/sdk").then((res) => {
-      if (res.data.message === "found") {
+    api.findConfig().then((res) => {
+      if (res.message === "found") {
         setFound(true);
       }
     });
