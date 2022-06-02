@@ -46,7 +46,6 @@ module.exports = () => ({
     return pluginStore.get({ key: "config" });
   },
   async sendNotification(notification) {
-    console.log(notification);
     const config = await this.getConfig();
 
     if (admin.apps.length == 0) {
@@ -66,14 +65,6 @@ module.exports = () => ({
     if (notification.image) {
       payload.webpush.headers.image = notification.image;
     }
-    const notifications = await strapi.entityService.create("notification", {
-      data: {
-        title: notification.title,
-        body: notification.body,
-        image: notification.image,
-        created_at: new Date(Date.now()),
-      },
-    });
 
     if (config) {
       const data = await messaging.send(payload);
@@ -101,5 +92,17 @@ module.exports = () => ({
         config,
       };
     }
+  },
+  async addToken(token) {
+    console.log(token);
+    const { data: create } = await strapi.entityService.create(
+      "api::token.token",
+      {
+        data: {
+          token,
+        },
+      }
+    );
+    return create;
   },
 });

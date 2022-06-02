@@ -62,4 +62,17 @@ module.exports = {
       };
     }
   },
+  async addTokens(ctx) {
+    try {
+      ctx.body = await strapi
+        .plugin("strapi-fcm")
+        .service("service")
+        .addToken(ctx.request.body);
+    } catch (error) {
+      ctx.body = {
+        message: "error",
+        error: error.message,
+      };
+    }
+  },
 };

@@ -39,4 +39,13 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/users/tokens",
+    handler: "controller.addTokens",
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
 ];
