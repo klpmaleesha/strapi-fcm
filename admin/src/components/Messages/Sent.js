@@ -5,7 +5,7 @@ import { Typography } from "@strapi/design-system/Typography";
 import api from "../../api";
 import styled from "styled-components";
 import Loading from "../Common/Loading";
-import placeholderImage from "../../../public/placeholder.png";
+import placeholderImage from "../../../public/placeholder-image.png";
 
 const SentNotification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -14,7 +14,6 @@ const SentNotification = () => {
     api
       .sentNotifications()
       .then((res) => {
-        console.log(res);
         setNotifications(res);
         setLoading(false);
       })
@@ -39,6 +38,33 @@ const SentNotification = () => {
               <Th>Date</Th>
             </Tr>
           </Thead>
+          {!notifications.length && (
+            <Tbody padding={2}>
+              <Tr>
+                <Td>
+                  <Box>
+                    <Image src={placeholderImage} />
+                  </Box>
+                </Td>
+                <Td>
+                  <Box>
+                    <Typography variant="pi">Title</Typography>
+                  </Box>
+                </Td>
+                <Td>
+                  <Box>
+                    <Typography variant="pi">Body</Typography>
+                  </Box>
+                </Td>
+
+                <Td>
+                  <Box>
+                    <Typography variant="pi">Date</Typography>
+                  </Box>
+                </Td>
+              </Tr>
+            </Tbody>
+          )}
           {notifications.map((notification) => (
             <Tbody padding={2}>
               <Tr>

@@ -23,23 +23,21 @@ const MessageForm = () => {
       <ContentLayout>
         <Box shadow="filterShadow" hasRadius background="neutral0" padding={2}>
           <Box>
-            <TabGroup
-              label="Some stuff for the label"
-              id="tabs"
-              variant="simple"
-            >
+            <TabGroup label="Some stuff for the label" id="tabs">
               <Tabs>
                 <Tab>Send</Tab>
                 <Tab>Sent</Tab>
               </Tabs>
-              <TabPanels paddingTop={4}>
-                <TabPanel>
-                  <Send />
-                </TabPanel>
-                <TabPanel>
-                  <Sent />
-                </TabPanel>
-              </TabPanels>
+              <Box padding={4}>
+                <TabPanels>
+                  <TabPanel>
+                    <Send />
+                  </TabPanel>
+                  <TabPanel>
+                    <Sent />
+                  </TabPanel>
+                </TabPanels>
+              </Box>
             </TabGroup>
           </Box>
         </Box>
