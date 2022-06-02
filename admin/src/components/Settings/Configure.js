@@ -106,7 +106,7 @@ const Configure = () => {
   };
 
   const updateConfig = async () => {
-    if (file && cloud && preset) {
+    if (cloud && preset) {
       const config = JSON.parse(await file.text());
 
       const {
@@ -213,7 +213,7 @@ const Configure = () => {
                     <>
                       {file
                         ? "Chanage Firebase Admin SDK"
-                        : "Firebase Admin SDK Selected"}
+                        : "Change Firebase Admin SDK"}
                     </>
                   )}
                 </Button>

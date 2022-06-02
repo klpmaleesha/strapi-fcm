@@ -57,17 +57,18 @@ module.exports = () => ({
       });
     }
     const messaging = admin.messaging();
+
+    const tokens = await strapi.db.query("plugin::strapi-fcm.token").findMany();
+
+    const registrationTokens = [];
+
+    registrationTokens.push(...tokens.map((token) => token.token));
+
     const payload = {
       notification: {
         title: notification.title,
         body: notification.body,
       },
-      webpush: {
-        headers: {
-          image: notification.image,
-        },
-      },
-      topic: "all",
     };
     const entry = await strapi.db
       .query("plugin::strapi-fcm.notification")
@@ -79,7 +80,10 @@ module.exports = () => ({
         },
       });
     if (sdk) {
-      const response = await messaging.send(payload);
+      const response = await messaging.sendToDevice(
+        registrationTokens,
+        payload
+      );
       return {
         response,
         entry,
@@ -94,18 +98,17 @@ module.exports = () => ({
         orderBy: { publishedAt: "DESC" },
       });
 
-    // await strapi.db.query("plugin::strapi-fcm.notification").deleteMany({});
-
     return notifications;
   },
-  async addToken(token) {
+  async addToken(fcm) {
     const { data: create } = await strapi.db
       .query("plugin::strapi-fcm.token")
       .create({
         data: {
-          token,
+          token: fcm.token,
         },
       });
+
     return create;
   },
 });
