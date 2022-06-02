@@ -25,7 +25,7 @@ $ yarn add strapi-fcm
 1. Create a new project
 2. Add the plugin to your project
 3. Configure API keys and Admin SDK at `/settings/strapi-fcm`
-   ![](../strapi-fcm/markdown/settings_configure.png)
+   ![](./markdown/settings_configure.png)
 4. Send notification tokens to backend from the fontend using the `/strapi-fcm/users/tokens` endpoint
 
 ```javascript
@@ -61,5 +61,5 @@ useEffect(() => {
 
 5. Go to `/admin/plugins/strapi-fcm`
 6. Send a notification to your userbase
-   ![](../strapi-fcm/markdown/plugin_send.png)
+   ![](./markdown/plugin_send.png)
 7. See previous notifications in your userbase by clicking on the `sent` tab
