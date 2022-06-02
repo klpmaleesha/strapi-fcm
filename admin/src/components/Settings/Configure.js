@@ -15,6 +15,7 @@ import api from "../../api";
 
 const Configure = () => {
   const [file, setFile] = useState(null);
+  const [sdk, setSdk] = useState({});
   const [cloud, setCloud] = useState("");
   const [preset, setPreset] = useState("");
   const [error, setError] = useState(false);
@@ -28,6 +29,7 @@ const Configure = () => {
         setCreated(res.config.created);
         setCloud(res.config.cloud);
         setPreset(res.config.preset);
+        setSdk(res.config.sdk);
       }
     });
   }, []);
@@ -98,16 +100,27 @@ const Configure = () => {
           });
         }
       } else {
-        console.log("Invalid config");
+        await toggleNotification({
+          type: "warning",
+          message: "Invalid configuration",
+        });
       }
     } else {
-      console.log("No file selected");
+      await toggleNotification({
+        type: "warning",
+        message: "Invalid configuration",
+      });
     }
   };
 
   const updateConfig = async () => {
     if (cloud && preset) {
-      const config = JSON.parse(await file.text());
+      let config;
+      if (sdk) {
+        config = sdk;
+      } else {
+        config = JSON.parse(await file.text());
+      }
 
       const {
         type,
@@ -305,7 +318,9 @@ const Configure = () => {
               <Flex justifyContent="end">
                 <Button
                   disabled={
-                    file === null || cloud.length === 0 || preset.length === 0
+                    created
+                      ? !sdk || !preset || !cloud
+                      : file == null || !preset || !cloud
                   }
                   onClick={created ? updateConfig : saveConfig}
                   size="l"
