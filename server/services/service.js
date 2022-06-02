@@ -70,6 +70,8 @@ module.exports = () => ({
         body: notification.body,
       },
     };
+    if (notification.image)
+      payload.notification.image = notification.image;
     const entry = await strapi.db
       .query("plugin::strapi-fcm.notification")
       .create({
