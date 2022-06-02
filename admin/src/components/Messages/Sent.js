@@ -5,6 +5,7 @@ import { Typography } from "@strapi/design-system/Typography";
 import api from "../../api";
 import styled from "styled-components";
 import Loading from "../Common/Loading";
+import placeholderImage from "../../../public/placeholder.png";
 
 const SentNotification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -43,7 +44,13 @@ const SentNotification = () => {
               <Tr>
                 <Td>
                   <Box>
-                    <Image src={notification.image ? notification.image : ""} />
+                    <Image
+                      src={
+                        notification.image
+                          ? notification.image
+                          : placeholderImage
+                      }
+                    />
                   </Box>
                 </Td>
                 <Td>
