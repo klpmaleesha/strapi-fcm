@@ -24,6 +24,7 @@ const SendNotification = () => {
   const [photo, setPhoto] = useState("");
   const [cloud, setCloud] = useState("");
   const [preset, setPreset] = useState("");
+  const [send, setSend] = useState(false);
   const toggleNotification = useNotification();
 
   const photoPickerRef = useRef();
@@ -36,6 +37,7 @@ const SendNotification = () => {
 
   const notify = () => {
     if (title.trim() && body.trim()) {
+      setSend(true);
       if (photo) {
         const data = new FormData();
         data.append("file", photo);
@@ -56,6 +58,7 @@ const SendNotification = () => {
                 setTitle("");
                 setBody("");
                 setPhoto(null);
+                setSend(false);
               })
               .catch((err) =>
                 toggleNotification({
@@ -71,6 +74,7 @@ const SendNotification = () => {
             setTitle("");
             setBody("");
             setPhoto(null);
+            setSend(false);
             toggleNotification({
               type: "success",
               message: "Notification sent successfully",
@@ -179,7 +183,7 @@ const SendNotification = () => {
           <Button
             type="submit"
             variant="primary"
-            disabled={title.length === 0 || body.length === 0}
+            disabled={title.length === 0 || body.length === 0 || send}
             onClick={notify}
           >
             Send
