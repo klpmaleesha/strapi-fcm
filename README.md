@@ -25,7 +25,39 @@ $ yarn add strapi-fcm
 1. Create a new project
 2. Add the plugin to your project
 3. Configure API keys and Admin SDK at `/settings/strapi-fcm`
-4. Go to `/admin/plugins/strapi-fcm`
-5. Send a notification to your userbase
-6. See previous notifications in your userbase by clicking on the `sent` tab
+4. Send notification tokens to backend from the fontend using the `/strapi-fcm/users/tokens` endpoint
 
+```javascript
+useEffect(() => {
+  try {
+    getToken(messaging)
+      .then(async (token) => {
+        if (token) {
+          axios
+            .post(`${SERVER}/strapi-fcm/users/tokens`, {
+              token: await token.toString(),
+            })
+            .then((res) => {
+              // Handle success
+            });
+        } else {
+          Push.Permission.request(
+            () => {
+              // User has granted permission
+            },
+            () => {
+              // User has denied permission
+            }
+          );
+        }
+      })
+      .catch(() => {});
+  } catch (error) {
+    // Handle error
+  }
+}, []);
+```
+
+5. Go to `/admin/plugins/strapi-fcm`
+6. Send a notification to your userbase
+7. See previous notifications in your userbase by clicking on the `sent` tab
