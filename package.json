@@ -9,6 +9,7 @@
     "displayName": "Strapi Fcm"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "firebase-admin": "^10.2.0",
     "styled-components": "^5.3.5"
   },
