@@ -102,14 +102,31 @@ module.exports = () => ({
     return notifications;
   },
   async addToken(fcm) {
-    const { data: create } = await strapi.db
+    const findTokens = await strapi.db
       .query("plugin::strapi-fcm.token")
-      .create({
-        data: {
-          token: fcm.token,
-        },
-      });
+      .findOne({ token: fcm.token });
+    if (findTokens) {
+      const updateToken = await strapi.db
+        .query("plugin::strapi-fcm.token")
+        .update(
+          { id: findTokens.id },
 
-    return create;
+          {
+            data: {
+              token: fcm.token,
+            },
+          }
+        );
+      return updateToken;
+    } else {
+      const addToken = await strapi.db
+        .query("plugin::strapi-fcm.token")
+        .create({
+          data: {
+            token: fcm.token,
+          },
+        });
+      return addToken;
+    }
   },
 });

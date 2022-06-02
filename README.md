@@ -36,7 +36,7 @@ useEffect(() => {
         if (token) {
           axios
             .post(`${SERVER}/strapi-fcm/users/tokens`, {
-              token: await token.toString(),
+              token: token,
             })
             .then((res) => {
               // Handle success
