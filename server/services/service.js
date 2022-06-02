@@ -49,11 +49,11 @@ module.exports = () => ({
     };
   },
   async sendNotification(notification) {
-    const data = await this.getConfig();
+    const sdk = await this.getConfig();
 
     if (admin.apps.length == 0) {
       admin.initializeApp({
-        credential: admin.credential.cert(data.config.sdk),
+        credential: admin.credential.cert(sdk.config.sdk),
       });
     }
     const messaging = admin.messaging();
@@ -62,33 +62,45 @@ module.exports = () => ({
         title: notification.title,
         body: notification.body,
       },
-
+      webpush: {
+        headers: {
+          image,
+        },
+      },
       topic: "all",
     };
     if (notification.image) {
       payload.webpush.headers.image = notification.image;
     }
+    const entry = await strapi.db
+      .query("plugin::strapi-fcm.notification")
+      .create({
+        data: {
+          title: notification.title,
+          body: notification.body,
+          image: notification?.image,
+        },
+      });
 
-    if (data) {
-      const data = await messaging.send(payload);
+    if (sdk) {
+      const response = await messaging.send(payload);
       return {
-        data,
-        notification,
+        response,
       };
     }
   },
   async getNotifications() {
-    const notifications = await strapi.entityService.findMany(
-      "api::notification.notification",
-      {
-        fields: ["title", "body", "image"],
-        sort: { createdAt: "DESC" },
-      }
-    );
+    const notifications = await strapi.db
+      .query("plugin::strapi-fcm.notification")
+      .findMany({
+        select: ["id", "title", "body", "image", "created_at"],
+        orderBy: { publishedAt: "DESC" },
+        limit: 100,
+      });
+
     return notifications;
   },
   async addToken(token) {
-    console.log(token);
     const { data: create } = await strapi.entityService.create(
       "api::token.token",
       {

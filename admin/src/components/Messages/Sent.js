@@ -1,14 +1,21 @@
 import React, { memo, useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
 import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table";
-import instance from "../../utils/axiosInstance";
+import { Typography } from "@strapi/design-system/Typography";
 import api from "../../api";
+import styled from "styled-components";
 
 const SentNotification = () => {
+  const [notifications, setNotifications] = useState([]);
   useEffect(() => {
-    api.sentNotifications().then((res) => {
-      console.log(res);
-    });
+    api
+      .sentNotifications()
+      .then((res) => {
+        setNotifications(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <Box fullWidth>
@@ -23,31 +30,35 @@ const SentNotification = () => {
               <Th>Date</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            <Tr>
-              <Td>
-                <Box>
-                  <img src="" alt="" />
-                </Box>
-              </Td>
-              <Td>
-                <Box>
-                  <strong>Title</strong>
-                </Box>
-              </Td>
-              <Td>
-                <Box>
-                  <strong>Body</strong>
-                </Box>
-              </Td>
+          {notifications.map((notification) => (
+            <Tbody>
+              <Tr>
+                <Td>
+                  <Box>
+                    <Image src={notification.image ? notification.image : ""} />
+                  </Box>
+                </Td>
+                <Td>
+                  <Box>
+                    <Typography variant="pi">{notification.title}</Typography>
+                  </Box>
+                </Td>
+                <Td>
+                  <Box>
+                    <Typography variant="pi">{notification.body}</Typography>
+                  </Box>
+                </Td>
 
-              <Td>
-                <Box>
-                  <strong>Date</strong>
-                </Box>
-              </Td>
-            </Tr>
-          </Tbody>
+                <Td>
+                  <Box>
+                    <Typography variant="pi">
+                      {new Date(notification.createdAt).toLocaleDateString()}
+                    </Typography>
+                  </Box>
+                </Td>
+              </Tr>
+            </Tbody>
+          ))}
         </Table>
       </Box>
     </Box>
@@ -55,3 +66,10 @@ const SentNotification = () => {
 };
 
 export default memo(SentNotification);
+
+const Image = styled.img`
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+`;

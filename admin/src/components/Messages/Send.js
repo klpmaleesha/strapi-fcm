@@ -49,11 +49,20 @@ const SendNotification = () => {
             api
               .sendNotification({ title, body, image: data.url })
               .then((res) => {
+                toggleNotification({
+                  type: "success",
+                  message: "Notification sent successfully",
+                });
                 setTitle("");
                 setBody("");
                 setPhoto(null);
               })
-              .catch((err) => console.log(err));
+              .catch((err) =>
+                toggleNotification({
+                  type: "warning",
+                  message: "Error sending notification",
+                })
+              );
           });
       } else {
         api
@@ -69,7 +78,7 @@ const SendNotification = () => {
           })
           .catch((err) =>
             toggleNotification({
-              type: "error",
+              type: "warning",
               message: "Error sending notification",
             })
           );
