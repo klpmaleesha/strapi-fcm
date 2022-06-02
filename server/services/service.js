@@ -35,7 +35,6 @@ module.exports = () => ({
         sdk: config.sdk,
       },
     });
-    console.log();
     return await pluginStore.get({ key: "config" });
   },
   async getConfig() {
@@ -44,18 +43,17 @@ module.exports = () => ({
     if (!config.created) {
       await createDefultConfig();
     }
-    console.log(config);
     return {
       config,
       message: "found",
     };
   },
   async sendNotification(notification) {
-    const config = await this.getConfig();
+    const data = await this.getConfig();
 
     if (admin.apps.length == 0) {
       admin.initializeApp({
-        credential: admin.credential.cert(config.sdk),
+        credential: admin.credential.cert(data.config.sdk),
       });
     }
     const messaging = admin.messaging();
@@ -71,7 +69,7 @@ module.exports = () => ({
       payload.webpush.headers.image = notification.image;
     }
 
-    if (config) {
+    if (data) {
       const data = await messaging.send(payload);
       return {
         data,

@@ -16,17 +16,21 @@ import {
 } from "@strapi/design-system/Card";
 import Pencil from "@strapi/icons/Pencil";
 import api from "../../api";
+import { useNotification } from "@strapi/helper-plugin";
 
 const SendNotification = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState("");
-  const [cloud, setCloud] = useState({});
+  const [cloud, setCloud] = useState("");
+  const [preset, setPreset] = useState("");
+  const toggleNotification = useNotification();
 
   const photoPickerRef = useRef();
   useEffect(() => {
     api.getConfig().then((res) => {
-      setCloud(res);
+      setCloud(res.config.cloud);
+      setPreset(res.config.preset);
     });
   }, []);
 
@@ -35,8 +39,8 @@ const SendNotification = () => {
       if (photo) {
         const data = new FormData();
         data.append("file", photo);
-        data.append("upload_preset", cloud.preset);
-        fetch(`https://api.cloudinary.com/v1_1/${cloud.cloud}/image/upload`, {
+        data.append("upload_preset", preset);
+        fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, {
           method: "POST",
           body: data,
         })
@@ -58,8 +62,17 @@ const SendNotification = () => {
             setTitle("");
             setBody("");
             setPhoto(null);
+            toggleNotification({
+              type: "success",
+              message: "Notification sent successfully",
+            });
           })
-          .catch((err) => console.log(err));
+          .catch((err) =>
+            toggleNotification({
+              type: "error",
+              message: "Error sending notification",
+            })
+          );
       }
     }
   };

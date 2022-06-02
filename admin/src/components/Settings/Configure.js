@@ -89,12 +89,12 @@ const Configure = () => {
           });
           await toggleNotification({
             type: "success",
-            text: "Configuration saved successfully",
+            message: "Configuration saved successfully",
           });
         } catch (err) {
           await toggleNotification({
             type: "warning",
-            text: "Configuration not saved",
+            message: "Configuration not saved",
           });
         }
       } else {
@@ -161,13 +161,13 @@ const Configure = () => {
                   .then(() => {
                     toggleNotification({
                       type: "success",
-                      text: "Configuration saved successfully",
+                      message: "Configuration saved successfully",
                     });
                   });
               } catch (err) {
                 toggleNotification({
                   type: "warning",
-                  text: "Configuration not saved",
+                  message: "Configuration not saved",
                 });
               }
             }
@@ -175,13 +175,13 @@ const Configure = () => {
       } else {
         await toggleNotification({
           type: "warning",
-          text: "Invalid config",
+          message: "Invalid config",
         });
       }
     } else {
       await toggleNotification({
         type: "warning",
-        text: "No file selected",
+        message: "No file selected",
       });
     }
   };
