@@ -6,13 +6,13 @@
 
 ### Installation
 
-> NPM: `npm install `
+> npm: `npm install `
 
 ```bash
 $ npm install --save strapi-fcm
 ```
 
-> Yarn: `yarn add `
+> yarn: `yarn add `
 
 ```bash
 $ yarn add strapi-fcm
