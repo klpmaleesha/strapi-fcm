@@ -4,19 +4,27 @@ import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table";
 import { Typography } from "@strapi/design-system/Typography";
 import api from "../../api";
 import styled from "styled-components";
+import Loading from "../Common/Loading";
 
 const SentNotification = () => {
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     api
       .sentNotifications()
       .then((res) => {
+        console.log(res);
         setNotifications(res);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <Box fullWidth>
       <Box padding={1}>
@@ -31,7 +39,7 @@ const SentNotification = () => {
             </Tr>
           </Thead>
           {notifications.map((notification) => (
-            <Tbody>
+            <Tbody padding={2}>
               <Tr>
                 <Td>
                   <Box>
@@ -68,8 +76,8 @@ const SentNotification = () => {
 export default memo(SentNotification);
 
 const Image = styled.img`
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   object-fit: cover;
   border-radius: 50%;
 `;

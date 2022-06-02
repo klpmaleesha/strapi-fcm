@@ -64,14 +64,11 @@ module.exports = () => ({
       },
       webpush: {
         headers: {
-          image,
+          image: notification.image,
         },
       },
       topic: "all",
     };
-    if (notification.image) {
-      payload.webpush.headers.image = notification.image;
-    }
     const entry = await strapi.db
       .query("plugin::strapi-fcm.notification")
       .create({
@@ -81,11 +78,11 @@ module.exports = () => ({
           image: notification?.image,
         },
       });
-
     if (sdk) {
       const response = await messaging.send(payload);
       return {
         response,
+        entry,
       };
     }
   },
@@ -95,20 +92,20 @@ module.exports = () => ({
       .findMany({
         select: ["id", "title", "body", "image", "created_at"],
         orderBy: { publishedAt: "DESC" },
-        limit: 100,
       });
+
+    // await strapi.db.query("plugin::strapi-fcm.notification").deleteMany({});
 
     return notifications;
   },
   async addToken(token) {
-    const { data: create } = await strapi.entityService.create(
-      "api::token.token",
-      {
+    const { data: create } = await strapi.db
+      .query("plugin::strapi-fcm.token")
+      .create({
         data: {
           token,
         },
-      }
-    );
+      });
     return create;
   },
 });

@@ -7,7 +7,7 @@ const Loading = () => {
   return (
     <Box fulleight>
       <Flex alignItems="center" justifyContent="center">
-        <Box fullHeight padding={8} background="neutral100">
+        <Box fullHeight padding={8} background="neutral0">
           <Loader large />
         </Box>
       </Flex>
