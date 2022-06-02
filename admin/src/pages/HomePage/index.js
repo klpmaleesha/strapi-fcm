@@ -12,7 +12,7 @@ const HomePage = () => {
   useEffect(() => {
     api.getConfig().then((res) => {
       if (res.message === "found") {
-        setActiveTab(0);
+        setActiveTab(1);
       } else {
         setActiveTab(0);
       }
