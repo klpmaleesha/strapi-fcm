@@ -20,6 +20,8 @@ $ yarn add strapi-fcm
 
 ### Demo Video
 
+[How to use strapi FCM video](https://youtu.be/jrvwf9iUamk)
+
 ### Steps
 
 1. Create a new project
@@ -64,6 +66,6 @@ useEffect(() => {
 6. Send a notification to your userbase
    ![](./markdown/plugin_send.png)
 7. See previous notifications in your userbase by clicking on the `sent` tab
-    ![](./markdown/plugin_sent.png)
+   ![](./markdown/plugin_sent.png)
 8. Enjoy your cloud notifications
-    ![](./markdown/demo_notification.png)
+   ![](./markdown/demo_notification.png)

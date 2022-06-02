@@ -8,16 +8,22 @@
     "kind": "plugin",
     "displayName": "Strapi Fcm"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klpmaleesha/strapi-fcm.git"
+  },
   "dependencies": {
     "firebase-admin": "^10.2.0",
     "styled-components": "^5.3.5"
   },
   "author": {
-    "name": "Maleesha Prabash"
+    "name": "Maleesha Prabash",
+    "url": "https://github.com/klpmaleesha"
   },
   "maintainers": [
     {
-      "name": "Maleesha Prabash"
+      "name": "Maleesha Prabash",
+      "url": "https://github.com/klpmaleesha"
     }
   ],
   "engines": {
