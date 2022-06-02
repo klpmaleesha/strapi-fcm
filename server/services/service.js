@@ -60,8 +60,12 @@ module.exports = () => ({
         title: notification.title,
         body: notification.body,
       },
+
       topic: "all",
     };
+    if (notification.image) {
+      payload.webpush.headers.image = notification.image;
+    }
     const notifications = await strapi.entityService.create("notification", {
       data: {
         title: notification.title,
