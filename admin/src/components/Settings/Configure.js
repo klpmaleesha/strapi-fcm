@@ -10,6 +10,7 @@ import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import { TextInput } from "@strapi/design-system/TextInput";
 import { Tooltip } from "@strapi/design-system/Tooltip";
 import Information from "@strapi/icons/Information";
+import { useNotification } from "@strapi/helper-plugin";
 import api from "../../api";
 
 const Configure = () => {
@@ -17,20 +18,16 @@ const Configure = () => {
   const [cloud, setCloud] = useState("");
   const [preset, setPreset] = useState("");
   const [error, setError] = useState(false);
-  const [found, setFound] = useState(false);
   const [created, setCreated] = useState(false);
   const filePickerRef = useRef();
+  const toggleNotification = useNotification();
 
   useEffect(() => {
     api.getConfig().then((res) => {
-      setCloud(res.cloud);
-      setPreset(res.preset);
-      setFile(res.sdk);
-      setCreated(res.created);
-    });
-    api.findConfig().then((res) => {
       if (res.message === "found") {
-        setFound(true);
+        setCreated(res.config.created);
+        setCloud(res.config.cloud);
+        setPreset(res.config.preset);
       }
     });
   }, []);
@@ -38,6 +35,7 @@ const Configure = () => {
   const saveConfig = async () => {
     if (file && cloud && preset) {
       const config = JSON.parse(await file.text());
+
       const {
         type,
         project_id,
@@ -73,6 +71,10 @@ const Configure = () => {
             console.log(data.error.message);
             if (data.error.message == "Unknown API key ") {
               setError(true);
+              toggleNotification({
+                type: "warning",
+                message: "Invalid API key",
+              });
             } else {
               setError(false);
             }
@@ -85,15 +87,102 @@ const Configure = () => {
             created: true,
             sdk: config,
           });
+          await toggleNotification({
+            type: "success",
+            text: "Configuration saved successfully",
+          });
         } catch (err) {
-          console.log(err);
+          await toggleNotification({
+            type: "warning",
+            text: "Configuration not saved",
+          });
         }
-        window.location.href = "/admin/plugins/strapi-fcm";
       } else {
         console.log("Invalid config");
       }
     } else {
       console.log("No file selected");
+    }
+  };
+
+  const updateConfig = async () => {
+    if (file && cloud && preset) {
+      const config = JSON.parse(await file.text());
+
+      const {
+        type,
+        project_id,
+        private_key_id,
+        private_key,
+        client_email,
+        client_id,
+        auth_uri,
+        token_uri,
+        auth_provider_x509_cert_url,
+        client_x509_cert_url,
+      } = config;
+      if (
+        type &&
+        project_id &&
+        private_key_id &&
+        private_key &&
+        client_email &&
+        client_id &&
+        auth_uri &&
+        token_uri &&
+        auth_provider_x509_cert_url &&
+        client_x509_cert_url
+      ) {
+        fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, {
+          method: "POST",
+          body: {
+            upload_preset: preset,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.error.message);
+            if (data.error.message == "Unknown API key ") {
+              setError(true);
+              toggleNotification({
+                type: "warning",
+                message: "Invalid Cloudinary API key",
+              });
+            } else {
+              setError(false);
+              try {
+                const credentials = api
+                  .setConfig({
+                    preset,
+                    cloud,
+                    created: true,
+                    sdk: config,
+                  })
+                  .then(() => {
+                    toggleNotification({
+                      type: "success",
+                      text: "Configuration saved successfully",
+                    });
+                  });
+              } catch (err) {
+                toggleNotification({
+                  type: "warning",
+                  text: "Configuration not saved",
+                });
+              }
+            }
+          });
+      } else {
+        await toggleNotification({
+          type: "warning",
+          text: "Invalid config",
+        });
+      }
+    } else {
+      await toggleNotification({
+        type: "warning",
+        text: "No file selected",
+      });
     }
   };
 
@@ -218,7 +307,7 @@ const Configure = () => {
                   disabled={
                     file === null || cloud.length === 0 || preset.length === 0
                   }
-                  onClick={saveConfig}
+                  onClick={created ? updateConfig : saveConfig}
                   size="l"
                 >
                   Save

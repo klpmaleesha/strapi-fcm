@@ -24,14 +24,6 @@ async function createDefultConfig() {
 }
 
 module.exports = () => ({
-  async getConfig() {
-    const pluginStore = getPluginStore();
-    const config = await pluginStore.get({ key: "config" });
-    if (!config) {
-      await createDefultConfig();
-    }
-    return config;
-  },
   async setConfig(config) {
     const pluginStore = getPluginStore();
     await pluginStore.set({
@@ -39,11 +31,24 @@ module.exports = () => ({
       value: {
         preset: config.preset,
         cloud: config.cloud,
-        created: config.created,
+        created: true,
         sdk: config.sdk,
       },
     });
-    return pluginStore.get({ key: "config" });
+    console.log();
+    return await pluginStore.get({ key: "config" });
+  },
+  async getConfig() {
+    const pluginStore = getPluginStore();
+    const config = await pluginStore.get({ key: "config" });
+    if (!config.created) {
+      await createDefultConfig();
+    }
+    console.log(config);
+    return {
+      config,
+      message: "found",
+    };
   },
   async sendNotification(notification) {
     const config = await this.getConfig();
@@ -83,15 +88,6 @@ module.exports = () => ({
       }
     );
     return notifications;
-  },
-  async findSDK() {
-    const config = await this.getConfig();
-    if (config) {
-      return {
-        message: "found",
-        config,
-      };
-    }
   },
   async addToken(token) {
     console.log(token);

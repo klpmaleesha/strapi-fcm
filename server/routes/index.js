@@ -1,12 +1,5 @@
 module.exports = [
-  {
-    method: "GET",
-    path: "/sdk",
-    handler: "controller.getSDK",
-    config: {
-      policies: [],
-    },
-  },
+
   {
     method: "POST",
     path: "/send",

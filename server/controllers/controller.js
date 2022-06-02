@@ -1,16 +1,6 @@
 "use strict";
 
 module.exports = {
-  async getSDK(ctx) {
-    try {
-      ctx.body = await strapi.plugin("strapi-fcm").service("service").findSDK();
-    } catch (err) {
-      ctx.body = {
-        message: "error",
-        error: error.message,
-      };
-    }
-  },
   async getConfig(ctx) {
     try {
       ctx.body = await strapi

@@ -1,8 +1,8 @@
 import React, { memo, useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
-import Loading from "../../components/Common/Loading";
 import Messages from "../../components/Messages";
 import GetStarted from "../../components/Home/GetStarted";
+import { LoadingIndicatorPage } from "@strapi/helper-plugin";
 import api from "../../api";
 
 const HomePage = () => {
@@ -10,7 +10,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.findConfig().then((res) => {
+    api.getConfig().then((res) => {
       if (res.message === "found") {
         setActiveTab(1);
       } else {
@@ -21,7 +21,7 @@ const HomePage = () => {
   }, []);
 
   if (loading) {
-    return <Loading />;
+    return <LoadingIndicatorPage />;
   }
   return (
     <Box>

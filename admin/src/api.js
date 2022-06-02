@@ -17,10 +17,6 @@ const requests = {
     const data = await instance.get("/sent");
     return data.data;
   },
-  findConfig: async () => {
-    const data = await instance.get("/sdk");
-    return data.data;
-  },
 };
 
 export default requests;
