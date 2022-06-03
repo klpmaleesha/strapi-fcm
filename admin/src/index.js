@@ -3,6 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
+import SendPost from "./components/InputMedia/SendPost";
 
 const name = "Strapi FCM";
 
@@ -60,7 +61,12 @@ export default {
     });
   },
 
-  bootstrap(app) {},
+  bootstrap(app) {
+    app.injectContentManagerComponent("editView", "informations", {
+      name: "strapi-fcm",
+      Component: SendPost,
+    });
+  },
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map((locale) => {
