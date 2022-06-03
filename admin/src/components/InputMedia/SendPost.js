@@ -2,13 +2,14 @@ import React, { memo, useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
 import { Divider } from "@strapi/design-system/Divider";
 import { Typography } from "@strapi/design-system/Typography";
-import { Checkbox } from "@strapi/design-system/Checkbox";
 import { Button } from "@strapi/design-system/Button";
-import { useCMEditViewDataManager, request } from "@strapi/helper-plugin";
+import { useCMEditViewDataManager } from "@strapi/helper-plugin";
+import { useNotification } from "@strapi/helper-plugin";
 import api from "../../api";
 
 const sendPost = () => {
   const quary = useCMEditViewDataManager();
+  const toggleNotification = useNotification();
 
   const sendNotifications = () => {
     api
@@ -17,17 +18,20 @@ const sendPost = () => {
         body: quary.modifiedData.Body,
       })
       .then((res) => {
-        console.log(res);
+        toggleNotification({
+          type: "success",
+          message: "Notification sent successfully",
+        });
       });
   };
   return (
     <Box>
       <Box padding={1}>
         <Divider />
-        <Box paddingBottom={1} paddingTop={1}>
+        <Box paddingBottom={1} paddingTop={2}>
           <Box>
             <Typography variant="omega" fontWeight="bold">
-              Send notification about new post
+              Strapi - FCM
             </Typography>
           </Box>
           <Box paddingTop={1}>
