@@ -22,7 +22,7 @@ $ yarn add strapi-fcm
 
 `V 0.0.1` [How to use strapi FCM video Version 0.0.1](https://youtu.be/jrvwf9iUamk)
 
-`V 0.0.5` [How to use strapi FCM video Version 0.0.4](https://youtu.be/jrvwf9iUamk)
+`V 0.0.5` [How to use strapi FCM video Version 0.0.4](https://youtu.be/K5dxUE9Gr8U)
 
 ### Steps
 
