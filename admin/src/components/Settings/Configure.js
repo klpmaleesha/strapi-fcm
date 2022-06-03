@@ -114,9 +114,8 @@ const Configure = () => {
   };
 
   const updateConfig = async () => {
-    if (cloud && preset) {
-      const config = (await file.text()) ? JSON.parse(await file.text()) : sdk;
-
+    if (cloud && preset && sdk) {
+      const config = file ? JSON.parse(await file.text()) : sdk;
       const {
         type,
         project_id,
@@ -314,7 +313,7 @@ const Configure = () => {
                 <Button
                   disabled={
                     created
-                      ? !sdk || !preset || !cloud
+                      ? !preset || !cloud
                       : file == null || !preset || !cloud
                   }
                   onClick={created ? updateConfig : saveConfig}
