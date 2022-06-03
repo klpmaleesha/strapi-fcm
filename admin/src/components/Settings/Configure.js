@@ -115,12 +115,7 @@ const Configure = () => {
 
   const updateConfig = async () => {
     if (cloud && preset) {
-      let config;
-      if (sdk) {
-        config = sdk;
-      } else {
-        config = JSON.parse(await file.text());
-      }
+      const config = (await file.text()) ? JSON.parse(await file.text()) : sdk;
 
       const {
         type,
@@ -207,8 +202,8 @@ const Configure = () => {
         as="h2"
       />
       <ContentLayout>
-        <Box shadow="filterShadow" hasRadius background="neutral0" padding={2}>
-          <Box padding={4}>
+        <Box shadow="filterShadow" hasRadius background="neutral0" padding={8}>
+          <Box>
             <Box paddingBottom={2}>
               <Typography variant="beta">Firebase Configuration</Typography>
               <Box paddingTop={2} paddingLeft={2}>

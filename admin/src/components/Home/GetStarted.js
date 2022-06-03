@@ -17,7 +17,7 @@ const GetStarted = () => {
         as="h2"
       />
       <ContentLayout>
-        <Box shadow="filterShadow" hasRadius background="neutral0" padding={2}>
+        <Box shadow="filterShadow" hasRadius background="neutral0" padding={8}>
           <Box>
             <Box paddingBottom={4}>
               <Box paddingBottom={1}>
