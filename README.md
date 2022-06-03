@@ -20,7 +20,9 @@ $ yarn add strapi-fcm
 
 ### Demo Video
 
-[How to use strapi FCM video](https://youtu.be/jrvwf9iUamk)
+`V 0.0.1` [How to use strapi FCM video Version 0.0.1](https://youtu.be/jrvwf9iUamk)
+
+`V 0.0.5` [How to use strapi FCM video Version 0.0.4](https://youtu.be/jrvwf9iUamk)
 
 ### Steps
 
@@ -69,3 +71,7 @@ useEffect(() => {
    ![](./markdown/plugin_sent.png)
 8. Enjoy your cloud notifications
    ![](./markdown/demo_notification.png)
+9. Send a notification from your blog post
+   ![](./markdown/dashboard_notify.png)
+10. Update your credentials at `/settings/strapi-fcm`
+    ![](./markdown/update.png)
