@@ -1,23 +1,32 @@
 import React, { memo, useState, useEffect } from "react";
-import { Box } from "@strapi/design-system/Box";
-import { Divider } from "@strapi/design-system/Divider";
-import { Typography } from "@strapi/design-system/Typography";
-import { Button } from "@strapi/design-system/Button";
+import {
+  Box,
+  Divider,
+  Button,
+  Select,
+  Option,
+  Typography,
+} from "@strapi/design-system";
 import { useCMEditViewDataManager } from "@strapi/helper-plugin";
 import { useNotification } from "@strapi/helper-plugin";
 import api from "../../api";
 
 const sendPost = () => {
-  const quary = useCMEditViewDataManager();
+  const [title, setTitle] = useState();
+  const [body, setBody] = useState();
+  const {
+    modifiedData,
+    layout: { attributes },
+  } = useCMEditViewDataManager();
   const toggleNotification = useNotification();
 
   const sendNotifications = () => {
     api
       .sendNotification({
-        title: quary.modifiedData.Title,
-        body: quary.modifiedData.Body,
+        title: modifiedData[title],
+        body: modifiedData[body],
       })
-      .then((res) => {
+      .then(() => {
         toggleNotification({
           type: "success",
           message: "Notification sent successfully",
@@ -26,20 +35,48 @@ const sendPost = () => {
   };
   return (
     <Box>
-      <Box padding={1}>
+      <Box padding={4}>
         <Divider />
-        <Box paddingBottom={1} paddingTop={2}>
-          <Box>
-            <Typography variant="omega" fontWeight="bold">
-              Strapi - FCM
-            </Typography>
-          </Box>
-          <Box paddingTop={1}>
-            <Button variant="secondary" onClick={sendNotifications}>
-              Send Notification
-            </Button>
-          </Box>
-        </Box>
+      </Box>
+      <Typography variant="omega" fontWeight="bold">
+        Strapi FCM
+      </Typography>
+      <Box paddingTop={2}>
+        <Select
+          placeholder="Field For Title"
+          value={title}
+          onChange={(e) => {
+            setTitle(e);
+          }}
+        >
+          {Object.keys(attributes).map((item, i) => (
+            <Option key={i} value={item}>
+              {item}
+            </Option>
+          ))}
+        </Select>
+      </Box>
+
+      <Box paddingTop={5}>
+        <Select
+          placeholder="Field For Body"
+          value={body}
+          onChange={(e) => {
+            setBody(e);
+          }}
+        >
+          {Object.keys(attributes).map((item, i) => (
+            <Option key={i} value={item}>
+              {item}
+            </Option>
+          ))}
+        </Select>
+      </Box>
+
+      <Box paddingTop={2}>
+        <Button variant="secondary" onClick={sendNotifications}>
+          Send Notification About New Post
+        </Button>
       </Box>
     </Box>
   );
