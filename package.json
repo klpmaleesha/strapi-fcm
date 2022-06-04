@@ -1,6 +1,6 @@
 {
   "name": "strapi-fcm",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Send push notifications to your users",
   "strapi": {
     "name": "strapi-fcm",
