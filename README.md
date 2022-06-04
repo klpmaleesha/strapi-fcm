@@ -18,11 +18,9 @@ $ npm install --save strapi-fcm
 $ yarn add strapi-fcm
 ```
 
-### Demo Video
+### Demo Video Playlist
 
-`V 0.0.1` [How to use strapi FCM video Version 0.0.1](https://youtu.be/jrvwf9iUamk)
-
-`V 0.0.5` [How to use strapi FCM video Version 0.0.4](https://youtu.be/K5dxUE9Gr8U)
+[Demo Video Playlist](https://www.youtube.com/playlist?list=PL32dHJaVH1H6VxBL3iFLA4be9rgVzIO7n)
 
 ### Steps
 
@@ -87,19 +85,19 @@ useEffect(() => {
 
 `To see your previous notifications, click on the sent tab. Then you can see the notifications sent to your userbase. `
 
-![](./markdown/plugin_sent.png) 
+![](./markdown/plugin_sent.png)
 
 8. Enjoy your cloud notifications
 
 `You can enjoy your cloud notifications by testing it in the browser.`
 
-![](./markdown/demo_notification.png) 
+![](./markdown/demo_notification.png)
 
 9. Send a notification from your blog post
 
 `You also can send a notification from your blog post. Its on your blog post page. You can selectet which field you want to send as the title and body. Its easy to send a notification from your blog post.`
 
-![](./markdown/dashboard_notify.png) 
+![](./markdown/dashboard_notify.png)
 
 10. Update your credentials at `/settings/strapi-fcm`
 
