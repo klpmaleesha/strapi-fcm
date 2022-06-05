@@ -30,8 +30,8 @@ const sendPost = () => {
       });
     } else {
       const payload = {
-        title: modifiedData[title],
-        body: modifiedData[body],
+        title: modifiedData[title].toString(),
+        body: modifiedData[body].toString(),
       };
 
       if (image)
