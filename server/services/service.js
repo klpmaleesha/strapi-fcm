@@ -71,15 +71,17 @@ module.exports = () => ({
       },
     };
     if (notification.image) payload.notification.image = notification.image;
-    const entry = await strapi.db
-      .query("plugin::strapi-fcm.notification")
-      .create({
-        data: {
-          title: notification.title,
-          body: notification.body,
-          image: notification?.image,
-        },
-      });
+    if (notification.title.trim() && notification.body.trim()) {
+      const entry = await strapi.db
+        .query("plugin::strapi-fcm.notification")
+        .create({
+          data: {
+            title: notification.title,
+            body: notification.body,
+            image: notification?.image,
+          },
+        });
+    }
     if (sdk) {
       const response = await messaging.sendToDevice(
         registrationTokens,
@@ -96,7 +98,8 @@ module.exports = () => ({
       .query("plugin::strapi-fcm.notification")
       .findMany({
         select: ["id", "title", "body", "image", "created_at"],
-        orderBy: { publishedAt: "DESC" },
+        orderBy: { createdAt: "DESC" },
+        populate: { category: true },
       });
 
     return notifications;

@@ -22,8 +22,6 @@ const sendPost = () => {
   } = useCMEditViewDataManager();
   const toggleNotification = useNotification();
 
-  console.log();
-
   const sendNotifications = () => {
     if (title === undefined || body === undefined) {
       toggleNotification({
@@ -31,18 +29,20 @@ const sendPost = () => {
         message: "Please fill all the fields",
       });
     } else {
-      api
-        .sendNotification({
-          title: modifiedData[title],
-          body: modifiedData[body],
-          image: `${process.env.STRAPI_ADMIN_BACKEND_URL}${modifiedData[image].url}`,
-        })
-        .then(() => {
-          toggleNotification({
-            type: "success",
-            message: "Notification sent successfully",
-          });
+      const payload = {
+        title: modifiedData[title],
+        body: modifiedData[body],
+      };
+
+      if (image)
+        payload.image = `${process.env.STRAPI_ADMIN_BACKEND_URL}${modifiedData[image]?.url}`;
+
+      api.sendNotification(payload).then(() => {
+        toggleNotification({
+          type: "success",
+          message: "Notification sent successfully",
         });
+      });
     }
   };
   return (

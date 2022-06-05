@@ -10,14 +10,7 @@
     "draftAndPublish": true,
     "comment": ""
   },
-  "pluginOptions": {
-    "content-manager": {
-      "visible": false
-    },
-    "content-type-builder": {
-      "visible": false
-    }
-  },
+
   "attributes": {
     "title": {
       "type": "string"
