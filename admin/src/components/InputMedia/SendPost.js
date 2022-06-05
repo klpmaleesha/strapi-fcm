@@ -14,24 +14,36 @@ import api from "../../api";
 const sendPost = () => {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
+  const [image, setImage] = useState();
+
   const {
     modifiedData,
     layout: { attributes },
   } = useCMEditViewDataManager();
   const toggleNotification = useNotification();
 
+  console.log();
+
   const sendNotifications = () => {
-    api
-      .sendNotification({
-        title: modifiedData[title],
-        body: modifiedData[body],
-      })
-      .then(() => {
-        toggleNotification({
-          type: "success",
-          message: "Notification sent successfully",
-        });
+    if (title === undefined || body === undefined) {
+      toggleNotification({
+        type: "warning",
+        message: "Please fill all the fields",
       });
+    } else {
+      api
+        .sendNotification({
+          title: modifiedData[title],
+          body: modifiedData[body],
+          image: `${process.env.STRAPI_ADMIN_BACKEND_URL}${modifiedData[image].url}`,
+        })
+        .then(() => {
+          toggleNotification({
+            type: "success",
+            message: "Notification sent successfully",
+          });
+        });
+    }
   };
   return (
     <Box>
@@ -56,8 +68,7 @@ const sendPost = () => {
           ))}
         </Select>
       </Box>
-
-      <Box paddingTop={5}>
+      <Box paddingTop={2}>
         <Select
           placeholder="Field For Body"
           value={body}
@@ -71,8 +82,22 @@ const sendPost = () => {
             </Option>
           ))}
         </Select>
+        <Box paddingTop={2}>
+          <Select
+            placeholder="Field For Image"
+            value={image}
+            onChange={(e) => {
+              setImage(e);
+            }}
+          >
+            {Object.keys(attributes).map((item, i) => (
+              <Option key={i} value={item}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        </Box>
       </Box>
-
       <Box paddingTop={2}>
         <Button variant="secondary" onClick={sendNotifications}>
           Send Notification About New Post
