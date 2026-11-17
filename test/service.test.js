@@ -100,6 +100,19 @@ test('malformed configs do not overwrite saved credentials', async () => {
   }
   assert.equal(h.config.sdk.private_key, 'saved');
 });
+test('server-managed application default credentials override an old stored service account', async () => {
+  const h = harness({ options: configured, saved: { sdk: { project_id: 'old', private_key: 'old-secret' } } });
+  await h.service.sendNotification({ ...input, tokens: ['device'] });
+  assert.deepEqual(h.apps.get('strapi-fcm').config.credential, { demo: true });
+});
+test('credential rotation from another running instance is applied before the next send', async () => {
+  const h = harness({ saved: { sdk: { project_id: 'old', private_key: 'old-secret' } } });
+  await h.service.sendNotification({ ...input, tokens: ['device'] });
+  h.config.sdk = { project_id: 'new', private_key: 'new-secret' };
+  await h.service.sendNotification({ ...input, tokens: ['device'] });
+  assert.equal(h.apps.get('strapi-fcm').config.credential.project_id, 'new');
+  assert.equal(h.deletedApps.length, 1);
+});
 test('history is bounded, sorted, paginated and uses createdAt', async () => {
   const h = harness({ options: configured });
   for (let i = 0; i < 3; i++) await h.service.sendNotification({ ...input, tokens: ['device'] });

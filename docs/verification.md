@@ -4,7 +4,7 @@ The release was checked on November 18, 2026. Demo screenshots use sample data.
 
 ## Automated checks
 
-- 23 tests cover large multicast broadcasts, duplicates, expired and ambiguous token errors, dry runs, topic/device targeting, empty audiences, transport failures, credential rotation, configuration redaction, validation, pagination, permission declarations, registration throttling, Cloudinary multipart uploads and errors, and upgrade preparation.
+- 25 tests cover large multicast broadcasts, duplicates, expired and ambiguous token errors, dry runs, topic/device targeting, empty audiences, transport failures, credential rotation across instances, server credential priority, configuration redaction, validation, pagination, permission declarations, registration throttling, Cloudinary multipart uploads and errors, and upgrade preparation.
 - The runtime smoke test loads the real Firebase Admin SDK and validates a generated local test key without making Firebase network calls.
 - The Node 22 test run and admin source bundle check pass.
 - The plugin's installed production dependency audit reports zero known vulnerabilities at verification time. This does not audit an entire consuming Strapi application.

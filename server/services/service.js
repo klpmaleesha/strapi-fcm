@@ -2,6 +2,7 @@
 
 const { initializeApp, cert, applicationDefault, deleteApp } = require('firebase-admin/app');
 const { getMessaging } = require('firebase-admin/messaging');
+const { createHash } = require('node:crypto');
 const { validateNotification, validateToken, badRequest, pagination } = require('../utils/validation');
 const TOKEN_UID = 'plugin::strapi-fcm.token';
 const HISTORY_UID = 'plugin::strapi-fcm.notification';
@@ -12,6 +13,7 @@ module.exports = ({ strapi }) => {
   const options = () => strapi.config.get('plugin.strapi-fcm', {});
   const rawConfig = async () => (await store().get({ key: 'config' })) || {};
   let app;
+  let appKey;
   let queue = Promise.resolve();
   // Serialize sends with credential rotation so an active Firebase app is never deleted mid-send.
   const exclusive = (operation) => {
@@ -25,15 +27,19 @@ module.exports = ({ strapi }) => {
     managedCredentials: Boolean(options().serviceAccount || options().useApplicationDefault),
   });
   const messaging = async () => {
+    const config = await rawConfig();
+    const sdk = options().serviceAccount || (options().useApplicationDefault ? undefined : config.sdk);
+    if (!sdk && !options().useApplicationDefault) {
+      const error = new Error('Configure Firebase credentials before sending notifications.');
+      error.status = 409;
+      throw error;
+    }
+    // Re-read persisted credentials so rotation also reaches other running Strapi instances.
+    const key = createHash('sha256').update(JSON.stringify(sdk || { applicationDefault: true })).digest('hex');
+    if (app && appKey !== key) { await deleteApp(app); app = undefined; }
     if (!app) {
-      const config = await rawConfig();
-      const sdk = options().serviceAccount || config.sdk;
-      if (!sdk && !options().useApplicationDefault) {
-        const error = new Error('Configure Firebase credentials before sending notifications.');
-        error.status = 409;
-        throw error;
-      }
       app = initializeApp({ credential: sdk ? cert(sdk) : applicationDefault() }, 'strapi-fcm');
+      appKey = key;
     }
     return getMessaging(app);
   };
