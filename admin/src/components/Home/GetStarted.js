@@ -12,8 +12,8 @@ const GetStarted = () => {
   return (
     <Layout background="neutral100">
       <BaseHeaderLayout
-        title="Get Started With Strapi FCM"
-        subtitle="set up your firebase cloud messaging setup"
+        title="Get started with Strapi FCM"
+        subtitle="Connect Firebase to start sending notifications"
         as="h2"
       />
       <ContentLayout>
@@ -21,12 +21,12 @@ const GetStarted = () => {
           <Box>
             <Box paddingBottom={4}>
               <Box paddingBottom={1}>
-                <Typography variant="alpha">Get Started 🎉</Typography>
+                <Typography variant="alpha">Set up notifications</Typography>
               </Box>
               <Box>
                 <Typography variant="pi" fontWeight="bold">
-                  To get started with Strapi FCM, you need to set up your
-                  firebase cloud messaging setup.
+                  Connect your Firebase project and register your devices to
+                  send your first notification.
                 </Typography>
               </Box>
             </Box>
@@ -40,7 +40,7 @@ const GetStarted = () => {
                 </Typography>
               </Box>
               <Box paddingBottom={2}>
-                <Typography variant="body">3. Generate a Admin SDK</Typography>
+                <Typography variant="body">3. Generate a Firebase service account JSON file</Typography>
               </Box>
               <Box paddingBottom={2}>
                 <Typography variant="body">
@@ -49,13 +49,13 @@ const GetStarted = () => {
               </Box>
               <Box paddingBottom={2}>
                 <Typography variant="body">
-                  5. Create a Cloudinary account and add your credentials to
-                  Plugin Configuration
+                  5. Optionally configure a Cloudinary cloud name and unsigned
+                  preset for image uploads
                 </Typography>
               </Box>
               <Box paddingBottom={2}>
                 <Typography variant="body">
-                  6. To setup fontend configuration, go to{" "}
+                  6. Register frontend devices using the endpoint in the{" "}
                   <Link href="https://github.com/klpmaleesha/strapi-fcm">
                     Docs
                   </Link>
@@ -66,19 +66,18 @@ const GetStarted = () => {
               </Box>
               <Box paddingBottom={2}>
                 <Typography variant="body">
-                  8. Enjoy FCM notifications! 🎉
+                  8. Check acceptance and failure counts in the Sent tab
                 </Typography>
               </Box>
             </Box>
             <Box paddingBottom={4} paddingTop={4}>
               <Typography variant="pi">
                 To learn more about Strapi FCM and how to set up your firebase
-                in the fontend as well as backend please cheack out{" "}
+                on your frontend and backend, see the{" "}
                 <Link href="https://github.com/klpmaleesha/strapi-fcm">
                   Github
                 </Link>{" "}
-                and to see a example of how to use Strapi FCM in the backend ans
-                a fontend please check out{" "}
+                documentation. For an example frontend and backend, see the{" "}
                 <Link href="https://github.com/klpmaleesha/strapi-fcm-demo">
                   Github
                 </Link>

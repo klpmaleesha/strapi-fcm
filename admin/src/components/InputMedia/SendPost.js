@@ -1,110 +1,40 @@
-import React, { memo, useState, useEffect } from "react";
-import {
-  Box,
-  Divider,
-  Button,
-  Select,
-  Option,
-  Typography,
-} from "@strapi/design-system";
-import { useCMEditViewDataManager } from "@strapi/helper-plugin";
-import { useNotification } from "@strapi/helper-plugin";
-import api from "../../api";
+import React, { memo, useRef, useState } from 'react';
+import { Box, Divider, Button, Select, Option, Typography } from '@strapi/design-system';
+import { useCMEditViewDataManager, useNotification } from '@strapi/helper-plugin';
+import api from '../../api';
+import { deliveryNotice, errorMessage } from '../../utils/notifications';
 
-const sendPost = () => {
-  const [title, setTitle] = useState();
-  const [body, setBody] = useState();
-  const [image, setImage] = useState();
-
-  const {
-    modifiedData,
-    layout: { attributes },
-  } = useCMEditViewDataManager();
-  const toggleNotification = useNotification();
-
-  const sendNotifications = () => {
-    if (title === undefined || body === undefined) {
-      toggleNotification({
-        type: "warning",
-        message: "Please fill all the fields",
-      });
-    } else {
-      const payload = {
-        title: modifiedData[title].toString(),
-        body: modifiedData[body].toString(),
-      };
-
-      if (image)
-        payload.image = `${process.env.STRAPI_ADMIN_BACKEND_URL}${modifiedData[image]?.url}`;
-
-      api.sendNotification(payload).then(() => {
-        toggleNotification({
-          type: "success",
-          message: "Notification sent successfully",
-        });
-      });
-    }
+const SendPost = () => {
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [image, setImage] = useState('');
+  const [sending, setSending] = useState(false);
+  const busy = useRef(false);
+  const { modifiedData, layout: { attributes } } = useCMEditViewDataManager();
+  const notify = useNotification();
+  const fields = Object.keys(attributes).filter((key) => ['string', 'text', 'richtext', 'email', 'enumeration'].includes(attributes[key].type));
+  const images = Object.keys(attributes).filter((key) => attributes[key].type === 'media' && !attributes[key].multiple);
+  const send = async () => {
+    if (busy.current) return;
+    busy.current = true; setSending(true);
+    try {
+      if (typeof modifiedData[title] !== 'string' || typeof modifiedData[body] !== 'string') throw new Error('Choose title and body fields containing text.');
+      const payload = { title: modifiedData[title], body: modifiedData[body] };
+      if (image) {
+        const url = modifiedData[image]?.url;
+        if (!url) throw new Error('The selected image field is empty.');
+        payload.image = new URL(url, window.strapi?.backendURL || window.location.origin).href;
+      }
+      notify(deliveryNotice(await api.sendNotification(payload)));
+    } catch (error) { notify({ type: 'warning', message: errorMessage(error) }); }
+    finally { busy.current = false; setSending(false); }
   };
-  return (
-    <Box>
-      <Box padding={4}>
-        <Divider />
-      </Box>
-      <Typography variant="omega" fontWeight="bold">
-        Strapi FCM
-      </Typography>
-      <Box paddingTop={2}>
-        <Select
-          placeholder="Field For Title"
-          value={title}
-          onChange={(e) => {
-            setTitle(e);
-          }}
-        >
-          {Object.keys(attributes).map((item, i) => (
-            <Option key={i} value={item}>
-              {item}
-            </Option>
-          ))}
-        </Select>
-      </Box>
-      <Box paddingTop={2}>
-        <Select
-          placeholder="Field For Body"
-          value={body}
-          onChange={(e) => {
-            setBody(e);
-          }}
-        >
-          {Object.keys(attributes).map((item, i) => (
-            <Option key={i} value={item}>
-              {item}
-            </Option>
-          ))}
-        </Select>
-        <Box paddingTop={2}>
-          <Select
-            placeholder="Field For Image"
-            value={image}
-            onChange={(e) => {
-              setImage(e);
-            }}
-          >
-            {Object.keys(attributes).map((item, i) => (
-              <Option key={i} value={item}>
-                {item}
-              </Option>
-            ))}
-          </Select>
-        </Box>
-      </Box>
-      <Box paddingTop={2}>
-        <Button variant="secondary" onClick={sendNotifications}>
-          Send Notification About New Post
-        </Button>
-      </Box>
-    </Box>
-  );
+  return <Box>
+    <Box padding={4}><Divider /></Box><Typography fontWeight="bold">Strapi FCM</Typography>
+    <Box paddingTop={3}><Select label="Title field" value={title} onChange={setTitle}>{fields.map((key) => <Option key={key} value={key}>{key}</Option>)}</Select></Box>
+    <Box paddingTop={3}><Select label="Body field" value={body} onChange={setBody}>{fields.map((key) => <Option key={key} value={key}>{key}</Option>)}</Select></Box>
+    <Box paddingTop={3}><Select label="Image field (optional)" value={image} onChange={setImage}><Option value="">No image</Option>{images.map((key) => <Option key={key} value={key}>{key}</Option>)}</Select></Box>
+    <Box paddingTop={3}><Button variant="secondary" loading={sending} disabled={!title || !body || sending} onClick={send}>Send notification about this post</Button></Box>
+  </Box>;
 };
-
-export default memo(sendPost);
+export default memo(SendPost);

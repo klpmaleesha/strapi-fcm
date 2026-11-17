@@ -1,1 +1,10 @@
-node_modules 
+node_modules/
+*.tgz
+demo/dist/
+demo/screenshots/
+playwright-report/
+test-results/
+.env
+.env.*
+.npmrc
+.qa/

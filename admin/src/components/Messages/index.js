@@ -1,6 +1,5 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo } from "react";
 import { Box } from "@strapi/design-system/Box";
-import { Layout } from "@strapi/design-system/Layout";
 import {
   Tabs,
   Tab,
@@ -8,27 +7,21 @@ import {
   TabPanels,
   TabPanel,
 } from "@strapi/design-system/Tabs";
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import PageLayout from '../Common/PageLayout';
 import Send from "./Send";
 import Sent from "./Sent";
 
 const MessageForm = () => {
   return (
-    <Layout background="neutral100">
-      <BaseHeaderLayout
-        title="Strapi FCM"
-        subtitle="send firebase cloud messaging notifications"
-        as="h2"
-      />
-      <ContentLayout>
-        <Box shadow="filterShadow" hasRadius background="neutral0" padding={8}>
+    <PageLayout subtitle="Send Firebase Cloud Messaging notifications">
+        <Box shadow="filterShadow" hasRadius background="neutral0" padding={{ desktop: 8, mobile: 4 }}>
           <Box>
-            <TabGroup label="Some stuff for the label" id="tabs">
+            <TabGroup label="Notifications" id="strapi-fcm-tabs">
               <Tabs>
                 <Tab>Send</Tab>
                 <Tab>Sent</Tab>
               </Tabs>
-              <Box padding={4}>
+              <Box padding={{ desktop: 4, mobile: 2 }}>
                 <TabPanels>
                   <TabPanel>
                     <Send />
@@ -41,8 +34,7 @@ const MessageForm = () => {
             </TabGroup>
           </Box>
         </Box>
-      </ContentLayout>
-    </Layout>
+    </PageLayout>
   );
 };
 

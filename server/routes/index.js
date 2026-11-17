@@ -1,44 +1,17 @@
-module.exports = [
-
-  {
-    method: "POST",
-    path: "/send",
-    handler: "controller.sendNotifications",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "GET",
-    path: "/sent",
-    handler: "controller.sentNotifications",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "GET",
-    path: "/config",
-    handler: "controller.getConfig",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "POST",
-    path: "/config",
-    handler: "controller.setConfig",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "POST",
-    path: "/users/tokens",
-    handler: "controller.addTokens",
-    config: {
-      policies: [],
-      auth: false,
-    },
-  },
-];
+'use strict';
+const adminRoute = (method, path, handler, action) => ({
+  method, path, handler: `controller.${handler}`,
+  config: { policies: ['admin::isAuthenticatedAdmin', {
+    name: 'admin::hasPermissions', config: { actions: [`plugin::strapi-fcm.${action}`] },
+  }] },
+});
+module.exports = {
+  admin: { type: 'admin', routes: [
+    adminRoute('POST', '/send', 'sendNotifications', 'send'),
+    adminRoute('GET', '/sent', 'sentNotifications', 'read'),
+    adminRoute('GET', '/config', 'getConfig', 'read'),
+    adminRoute('POST', '/config', 'setConfig', 'configure'),
+    { method: 'POST', path: '/users/tokens', handler: 'controller.addTokens',
+      config: { auth: false, policies: [], middlewares: ['plugin::strapi-fcm.registration-limit'] } },
+  ] },
+};

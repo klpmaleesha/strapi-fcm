@@ -7,7 +7,7 @@ import { auth } from "@strapi/helper-plugin";
 import pluginId from "../pluginId";
 
 const instance = axios.create({
-  baseURL: `${process.env.STRAPI_ADMIN_BACKEND_URL}/${pluginId}`,
+  baseURL: `${(window.strapi?.backendURL || process.env.STRAPI_ADMIN_BACKEND_URL || '').replace(/\/$/, '')}/${pluginId}`,
 });
 
 instance.interceptors.request.use(
@@ -21,7 +21,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 

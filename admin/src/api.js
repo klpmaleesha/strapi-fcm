@@ -13,8 +13,8 @@ const requests = {
     const data = await instance.post("/send", notification);
     return data.data;
   },
-  sentNotifications: async () => {
-    const data = await instance.get("/sent");
+  sentNotifications: async (params = {}) => {
+    const data = await instance.get("/sent", { params });
     return data.data;
   },
 };

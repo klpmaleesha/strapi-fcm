@@ -23,10 +23,43 @@
       "type": "string"
     },
     "body": {
-      "type": "string"
+      "type": "text"
     },
     "image": {
-      "type": "string"
+      "type": "text"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "sending",
+        "sent",
+        "partial",
+        "failed",
+        "empty",
+        "legacy"
+      ],
+      "default": "legacy"
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": [
+        "all",
+        "tokens",
+        "topic"
+      ],
+      "default": "all"
+    },
+    "topic": {
+      "type": "text"
+    },
+    "successCount": {
+      "type": "integer"
+    },
+    "failureCount": {
+      "type": "integer"
+    },
+    "recipientCount": {
+      "type": "integer"
     }
   }
 }

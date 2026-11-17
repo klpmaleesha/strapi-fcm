@@ -1,7 +1,7 @@
 {
   "name": "strapi-fcm",
-  "version": "0.1.3",
-  "description": "Send push notifications to your users",
+  "version": "0.2.0",
+  "description": "Firebase Cloud Messaging for Strapi 4 with targeted sends, dry runs, and delivery reports",
   "strapi": {
     "name": "strapi-fcm",
     "description": "Send push notifications to your users via FCM.",
@@ -13,8 +13,9 @@
     "url": "https://github.com/klpmaleesha/strapi-fcm.git"
   },
   "dependencies": {
-    "firebase-admin": "^10.2.0",
-    "styled-components": "^5.3.5"
+    "firebase-admin": "^14.5.1",
+    "axios": "^1.21.1",
+    "prop-types": "^15.8.1"
   },
   "author": {
     "name": "Maleesha Prabash",
@@ -32,8 +33,61 @@
     "fcm"
   ],
   "engines": {
-    "node": ">=12.x.x <=16.x.x",
-    "npm": ">=6.0.0"
+    "node": ">=22",
+    "npm": ">=10"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.27.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^4.26.2",
+    "@strapi/helper-plugin": "^4.26.2",
+    "@strapi/design-system": "^1.19.0",
+    "@strapi/icons": "^1.19.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^5.3.4"
+  },
+  "peerDependenciesMeta": {
+    "@strapi/strapi": {
+      "optional": true
+    },
+    "@strapi/helper-plugin": {
+      "optional": true
+    },
+    "@strapi/design-system": {
+      "optional": true
+    },
+    "@strapi/icons": {
+      "optional": true
+    },
+    "react-router-dom": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "demo": "node demo/server.cjs",
+    "check:admin": "node scripts/check-admin.cjs",
+    "prepublishOnly": "npm test && npm run check:admin",
+    "demo:setup": "npm install --prefix .qa/ui @strapi/design-system@1.19.0 @strapi/icons@1.19.0 styled-components@5.3.11 react@18.3.1 react-dom@18.3.1 react-router-dom@5.3.4 lodash --ignore-scripts --no-audit --no-fund"
+  },
+  "files": [
+    "admin/",
+    "server/",
+    "strapi-admin.js",
+    "strapi-server.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs/",
+    "scripts/prepare-upgrade.cjs"
+  ],
+  "bugs": {
+    "url": "https://github.com/klpmaleesha/strapi-fcm/issues"
+  },
+  "homepage": "https://github.com/klpmaleesha/strapi-fcm#readme"
 }

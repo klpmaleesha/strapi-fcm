@@ -5,10 +5,10 @@ import { Flex } from "@strapi/design-system/Flex";
 
 const Loading = () => {
   return (
-    <Box fulleight>
+    <Box fullHeight>
       <Flex alignItems="center" justifyContent="center">
         <Box fullHeight padding={8} background="neutral0">
-          <Loader large />
+          <Loader>Loading notifications</Loader>
         </Box>
       </Flex>
     </Box>
